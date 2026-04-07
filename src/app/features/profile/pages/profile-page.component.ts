@@ -149,7 +149,10 @@ export class ProfilePageComponent implements OnInit {
       });
   }
   demoPromoteToAdmin(): void {
-    this.notification.success('Demo: User promoted to admin (mock action).', 'Demo Promote');
+    this.notification.success(
+      'Demo: User promoted to admin (mock action).',
+      'Demo Promote',
+    );
     // Here you would call a real promote endpoint or mock the effect for demo purposes.
   }
 }

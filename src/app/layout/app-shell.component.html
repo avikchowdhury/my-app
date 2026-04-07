@@ -1,6 +1,5 @@
 <div class="shell">
   <header class="shell-header">
-
     <div class="brand-header">
       <img src="assets/brand/brand.webp" alt="App Logo" class="app-logo" />
       <div class="brand-title-block">
@@ -12,17 +11,26 @@
     <div class="shell-actions">
       <a routerLink="/profile" class="profile-chip">
         <div class="profile-avatar">
-          <img *ngIf="profile?.avatarUrl" [src]="profile?.avatarUrl" alt="Profile avatar" />
+          <img
+            *ngIf="profile?.avatarUrl"
+            [src]="profile?.avatarUrl"
+            alt="Profile avatar"
+          />
           <span *ngIf="!profile?.avatarUrl">{{ avatarInitials }}</span>
         </div>
 
         <div class="profile-meta">
-          <strong>{{ profile?.email || 'Your profile' }}</strong>
-          <small>{{ profile?.role || 'Account settings' }}</small>
+          <strong>{{ profile?.email || "Your profile" }}</strong>
+          <small>{{ profile?.role || "Account settings" }}</small>
         </div>
       </a>
 
-      <button mat-raised-button color="primary" class="logout-button" (click)="logout()">
+      <button
+        mat-raised-button
+        color="primary"
+        class="logout-button"
+        (click)="logout()"
+      >
         <mat-icon>logout</mat-icon>
         Logout
       </button>
