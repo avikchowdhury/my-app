@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 export interface Profile {
@@ -29,7 +29,10 @@ export class ProfileService {
   }
 
   changePassword(oldPassword: string, newPassword: string): Observable<void> {
-    return this.http.post<void>(`${this.apiUrl}/change-password`, { oldPassword, newPassword });
+    return this.http.post<void>(`${this.apiUrl}/change-password`, {
+      oldPassword,
+      newPassword,
+    });
   }
 
   uploadAvatar(file: File): Observable<{ avatarUrl: string }> {
@@ -43,10 +46,10 @@ export class ProfileService {
           if (current) {
             this.profileSubject.next({
               ...current,
-              avatarUrl: response.avatarUrl
+              avatarUrl: response.avatarUrl,
             });
           }
-        })
+        }),
       );
   }
 

@@ -8,8 +8,5 @@
   "files": [
     "src/main.ts"
   ],
-  "include": [
-    "src/**/*.d.ts",
-    "src/app/pages/budget-edit-dialog.component.ts"
-  ]
+  "include": ["src/**/*.d.ts"]
 }

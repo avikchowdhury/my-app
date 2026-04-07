@@ -5,9 +5,9 @@ import { Category, CategoryService } from '../../services/category.service';
 import { NotificationService } from '../../services/notification.service';
 import { ReceiptService } from '../../services/receipt.service';
 import { ReceiptAiParseResult, ReceiptDto, ReceiptQueryParams } from '../../models';
-import { ReceiptDeleteDialogComponent } from '../../pages/receipt-delete-dialog.component';
-import { ReceiptEditDialogComponent } from '../../pages/receipt-edit-dialog.component';
-import { ReceiptViewDialogComponent } from '../../pages/receipt-view-dialog.component';
+import { ReceiptDeleteDialogComponent } from './dialogs/receipt-delete-dialog.component';
+import { ReceiptEditDialogComponent } from './dialogs/receipt-edit-dialog.component';
+import { ReceiptViewDialogComponent } from './dialogs/receipt-view-dialog.component';
 
 @Component({
   selector: 'app-receipts-page',

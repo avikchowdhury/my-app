@@ -22,8 +22,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { NgChartsModule } from 'ng2-charts';
+import { ConfirmDialogComponent } from './components/confirm-dialog.component';
 
 @NgModule({
+  declarations: [ConfirmDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -51,6 +53,7 @@ import { NgChartsModule } from 'ng2-charts';
     NgChartsModule
   ],
   exports: [
+    ConfirmDialogComponent,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

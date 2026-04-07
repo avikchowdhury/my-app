@@ -1,11 +1,1 @@
-import { Component } from '@angular/core';
-
-@Component({
-  selector: 'app-receipts',
-  templateUrl: './receipts.component.html',
-  styleUrls: ['./receipts.component.scss'],
-})
-export class ReceiptsComponent {
-  readonly message =
-    'Legacy receipts component replaced by the lazy-loaded receipts feature.';
-}
+export { ReceiptsPageComponent as ReceiptsComponent } from '../features/receipts/receipts-page.component';

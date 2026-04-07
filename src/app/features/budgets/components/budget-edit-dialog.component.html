@@ -1,0 +1,17 @@
+<h2 mat-dialog-title>{{ data.budget ? 'Edit Budget' : 'Add Budget' }}</h2>
+<mat-dialog-content>
+  <form>
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Category</mat-label>
+      <input matInput [(ngModel)]="category" name="category" required />
+    </mat-form-field>
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Amount</mat-label>
+      <input matInput type="number" [(ngModel)]="amount" name="amount" required min="0" />
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button (click)="close()">Cancel</button>
+  <button mat-raised-button color="primary" (click)="save()">Save</button>
+</mat-dialog-actions>

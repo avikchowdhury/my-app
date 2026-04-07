@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
-import { CategoriesComponent } from '../../pages/categories.component';
-import { CategoryEditDialogComponent } from '../../pages/category-edit-dialog.component';
 import { SharedModule } from '../../shared/shared.module';
+import { CategoryEditDialogComponent } from './components/category-edit-dialog.component';
+import { CategoriesPageComponent } from './pages/categories-page.component';
 import { CategoriesRoutingModule } from './categories-routing.module';
 
 @NgModule({
-  declarations: [CategoriesComponent, CategoryEditDialogComponent],
+  declarations: [CategoriesPageComponent, CategoryEditDialogComponent],
   imports: [SharedModule, CategoriesRoutingModule]
 })
 export class CategoriesModule {}
