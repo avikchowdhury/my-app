@@ -1,7 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
-import { PaginatedResponse, ReceiptAiParseResult, ReceiptDto, ReceiptQueryParams } from '../models';
+import {
+  PaginatedResponse,
+  ReceiptAiParseResult,
+  ReceiptDto,
+  ReceiptQueryParams,
+} from '../models';
 
 const API_BASE = '/api';
 
@@ -32,10 +37,16 @@ export class ReceiptService {
   parseReceiptAI(file: File): Observable<ReceiptAiParseResult> {
     const formData = new FormData();
     formData.append('file', file);
-    return this.http.post<ReceiptAiParseResult>(`${API_BASE}/ai/parse-receipt`, formData);
+    return this.http.post<ReceiptAiParseResult>(
+      `${API_BASE}/ai/parse-receipt`,
+      formData,
+    );
   }
 
-  uploadReceipt(file: File, metadata?: { category?: string; notes?: string }): Observable<ReceiptDto> {
+  uploadReceipt(
+    file: File,
+    metadata?: { category?: string; notes?: string },
+  ): Observable<ReceiptDto> {
     const formData = new FormData();
     formData.append('file', file);
     if (metadata?.category) {
@@ -47,13 +58,20 @@ export class ReceiptService {
     return this.http.post<ReceiptDto>(`${API_BASE}/receipts`, formData);
   }
 
-  getReceipts(query: ReceiptQueryParams = {}): Observable<PaginatedResponse<ReceiptDto>> {
-    return this.http.get<PaginatedResponse<ReceiptDto>>(`${API_BASE}/receipts`, {
-      params: this.buildParams(query)
-    });
+  getReceipts(
+    query: ReceiptQueryParams = {},
+  ): Observable<PaginatedResponse<ReceiptDto>> {
+    return this.http.get<PaginatedResponse<ReceiptDto>>(
+      `${API_BASE}/receipts`,
+      {
+        params: this.buildParams(query),
+      },
+    );
   }
 
   getRecentReceipts(limit: number = 5): Observable<ReceiptDto[]> {
-    return this.getReceipts({ page: 1, pageSize: limit }).pipe(map((response) => response.data.slice(0, limit)));
+    return this.getReceipts({ page: 1, pageSize: limit }).pipe(
+      map((response) => response.data.slice(0, limit)),
+    );
   }
 }

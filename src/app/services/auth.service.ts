@@ -10,11 +10,17 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${API_BASE}/auth/register`, { email, password });
+    return this.http.post<AuthResponse>(`${API_BASE}/auth/register`, {
+      email,
+      password,
+    });
   }
 
   login(email: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${API_BASE}/auth/login`, { email, password });
+    return this.http.post<AuthResponse>(`${API_BASE}/auth/login`, {
+      email,
+      password,
+    });
   }
 
   saveToken(data: AuthResponse): void {
@@ -47,7 +53,15 @@ export class AuthService {
     return this.http.post(`${API_BASE}/auth/send-otp`, { email });
   }
 
-  verifyOtp(email: string, otp: string, password: string): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${API_BASE}/auth/register-otp`, { email, otp, password });
+  verifyOtp(
+    email: string,
+    otp: string,
+    password: string,
+  ): Observable<AuthResponse> {
+    return this.http.post<AuthResponse>(`${API_BASE}/auth/register-otp`, {
+      email,
+      otp,
+      password,
+    });
   }
 }

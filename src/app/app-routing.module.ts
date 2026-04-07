@@ -6,12 +6,17 @@ import { AppShellComponent } from './layout/app-shell.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'dashboard' },
-  { path: 'expense-tracker-login', pathMatch: 'full', redirectTo: 'auth/login' },
+  {
+    path: 'expense-tracker-login',
+    pathMatch: 'full',
+    redirectTo: 'auth/login',
+  },
   { path: 'register', pathMatch: 'full', redirectTo: 'auth/register' },
   {
     path: 'auth',
     canActivate: [GuestGuard],
-    loadChildren: () => import('./features/auth/auth.module').then((m) => m.AuthModule)
+    loadChildren: () =>
+      import('./features/auth/auth.module').then((m) => m.AuthModule),
   },
   {
     path: '',
@@ -20,31 +25,48 @@ const routes: Routes = [
     children: [
       {
         path: 'dashboard',
-        loadChildren: () => import('./features/dashboard/dashboard.module').then((m) => m.DashboardModule)
+        loadChildren: () =>
+          import('./features/dashboard/dashboard.module').then(
+            (m) => m.DashboardModule,
+          ),
       },
       {
         path: 'receipts',
-        loadChildren: () => import('./features/receipts/receipts.module').then((m) => m.ReceiptsModule)
+        loadChildren: () =>
+          import('./features/receipts/receipts.module').then(
+            (m) => m.ReceiptsModule,
+          ),
       },
       {
         path: 'budgets',
-        loadChildren: () => import('./features/budgets/budgets.module').then((m) => m.BudgetsModule)
+        loadChildren: () =>
+          import('./features/budgets/budgets.module').then(
+            (m) => m.BudgetsModule,
+          ),
       },
       {
         path: 'categories',
-        loadChildren: () => import('./features/categories/categories.module').then((m) => m.CategoriesModule)
+        loadChildren: () =>
+          import('./features/categories/categories.module').then(
+            (m) => m.CategoriesModule,
+          ),
       },
       {
         path: 'profile',
-        loadChildren: () => import('./features/profile/profile.module').then((m) => m.ProfileModule)
-      }
-    ]
+        loadChildren: () =>
+          import('./features/profile/profile.module').then(
+            (m) => m.ProfileModule,
+          ),
+      },
+    ],
   },
-  { path: '**', redirectTo: 'dashboard' }
+  { path: '**', redirectTo: 'dashboard' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
+  ],
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

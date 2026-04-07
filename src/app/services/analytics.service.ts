@@ -10,7 +10,9 @@ export class AnalyticsService {
   constructor(private http: HttpClient) {}
 
   getMonthlySpendings(months: number = 6): Observable<MonthlySpendingItem[]> {
-    return this.http.get<MonthlySpendingItem[]>(`${API_BASE}/analytics/monthly?months=${months}`);
+    return this.http.get<MonthlySpendingItem[]>(
+      `${API_BASE}/analytics/monthly?months=${months}`,
+    );
   }
 
   getCategoryBreakdown(): Observable<CategorySpendItem[]> {
