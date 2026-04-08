@@ -1,11 +1,12 @@
-import { Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { Category } from '../../../services/category.service';
 import { ReceiptAiParseResult } from '../../../models';
 
 @Component({
   selector: 'app-receipt-upload-assistant',
   templateUrl: './receipt-upload-assistant.component.html',
-  styleUrls: ['./receipt-upload-assistant.component.scss']
+  styleUrls: ['./receipt-upload-assistant.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReceiptUploadAssistantComponent implements OnChanges {
   @ViewChild('fileInput') fileInput?: ElementRef<HTMLInputElement>;

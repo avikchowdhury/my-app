@@ -58,6 +58,8 @@ src/app
 - Reusable cross-feature UI belongs in `shared/`.
 - Singleton app concerns such as auth, shell state, and route protection are candidates for a future `core/` folder.
 - Lazy loading stays at the feature-module boundary.
+- The old global `src/app/pages/` compatibility layer should not come back; live features should import each other directly through feature-owned pages, components, or shared UI.
+- Pure child components should prefer `OnPush` change detection so parent containers carry the async orchestration while presentation stays cheap.
 
 ### Why This Works
 
@@ -74,6 +76,12 @@ ExpenseTracker.Api
   Configuration/
   Controllers/
   Data/
+    ExpenseTrackerDbContext.cs
+    IRepository.cs
+    Repository.cs
+    IUnitOfWork.cs
+    UnitOfWork.cs
+    Migrations/
   Dtos/
   Extensions/
   Models/
@@ -91,6 +99,8 @@ The current refactor keeps the API as one deployable service, but makes startup 
 - `Program.cs` should only compose the app.
 - Service registration should be grouped by platform concern.
 - File storage, auth, CORS, data access, and AI integrations should not be mixed inline in startup.
+- Controllers and domain services should depend on repositories and a unit of work instead of reaching straight into `DbContext`.
+- Repositories should expose querying and persistence for aggregates, while transaction boundaries stay in the unit of work.
 - Feature code can later be moved into `Features/Auth`, `Features/Receipts`, `Features/Budgets`, and `Features/Analytics` without changing the deployment model first.
 
 ## Future Microservice Boundaries

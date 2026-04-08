@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Category, VendorCategoryRule } from '../../../services/category.service';
 
 @Component({
   selector: 'app-vendor-rule-manager',
   templateUrl: './vendor-rule-manager.component.html',
-  styleUrls: ['./vendor-rule-manager.component.scss']
+  styleUrls: ['./vendor-rule-manager.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VendorRuleManagerComponent implements OnChanges {
   @Input() categories: Category[] = [];

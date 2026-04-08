@@ -1,11 +1,12 @@
 import { PageEvent } from '@angular/material/paginator';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { ReceiptDto } from '../../../models';
 
 @Component({
   selector: 'app-receipt-table',
   templateUrl: './receipt-table.component.html',
-  styleUrls: ['./receipt-table.component.scss']
+  styleUrls: ['./receipt-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReceiptTableComponent {
   @Input() receipts: ReceiptDto[] = [];

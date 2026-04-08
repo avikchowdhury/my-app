@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
 import { Category } from '../../../services/category.service';
 import { ReceiptQueryParams } from '../../../models';
 
 @Component({
   selector: 'app-receipt-filters',
   templateUrl: './receipt-filters.component.html',
-  styleUrls: ['./receipt-filters.component.scss']
+  styleUrls: ['./receipt-filters.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReceiptFiltersComponent implements OnChanges {
   @Input() categories: Category[] = [];

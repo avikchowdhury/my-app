@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-spending-trend-card',
   templateUrl: './spending-trend-card.component.html',
-  styleUrls: ['./spending-trend-card.component.scss']
+  styleUrls: ['./spending-trend-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SpendingTrendCardComponent {
   @Input() data: ChartData<'bar'> = { labels: [], datasets: [] };

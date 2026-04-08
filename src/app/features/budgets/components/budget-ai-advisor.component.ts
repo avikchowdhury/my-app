@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BudgetAdvisorSnapshot } from '../../../models';
 
 @Component({
   selector: 'app-budget-ai-advisor',
   templateUrl: './budget-ai-advisor.component.html',
   styleUrls: ['./budget-ai-advisor.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetAiAdvisorComponent {
   @Input() advisor: BudgetAdvisorSnapshot | null = null;

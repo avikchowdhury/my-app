@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { AdminOverview } from '../../../models';
 
 interface AdminMetricCard {
@@ -13,6 +13,7 @@ interface AdminMetricCard {
   selector: 'app-admin-overview-grid',
   templateUrl: './admin-overview-grid.component.html',
   styleUrls: ['./admin-overview-grid.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminOverviewGridComponent {
   @Input() overview: AdminOverview | null = null;

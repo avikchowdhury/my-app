@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { BudgetAdvisorCategory } from '../../../models';
 
 @Component({
   selector: 'app-budget-watchlist',
   templateUrl: './budget-watchlist.component.html',
   styleUrls: ['./budget-watchlist.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BudgetWatchlistComponent {
   @Input() categories: BudgetAdvisorCategory[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnChanges } from '@angular/core';
 import { ReceiptDto } from '../../../models';
 
 interface CalendarDayCell {
@@ -13,7 +13,8 @@ interface CalendarDayCell {
 @Component({
   selector: 'app-receipt-activity-calendar',
   templateUrl: './receipt-activity-calendar.component.html',
-  styleUrls: ['./receipt-activity-calendar.component.scss']
+  styleUrls: ['./receipt-activity-calendar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReceiptActivityCalendarComponent implements OnChanges {
   @Input() receipts: ReceiptDto[] = [];

@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 import { AdminUserSummary, AppUserRole } from '../../../models';
 
 @Component({
   selector: 'app-admin-users-table',
   templateUrl: './admin-users-table.component.html',
   styleUrls: ['./admin-users-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminUsersTableComponent {
   @Input() users: AdminUserSummary[] = [];

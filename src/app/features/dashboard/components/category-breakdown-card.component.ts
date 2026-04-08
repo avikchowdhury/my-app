@@ -1,10 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 
 @Component({
   selector: 'app-category-breakdown-card',
   templateUrl: './category-breakdown-card.component.html',
-  styleUrls: ['./category-breakdown-card.component.scss']
+  styleUrls: ['./category-breakdown-card.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CategoryBreakdownCardComponent {
   @Input() data: ChartData<'doughnut'> = { labels: [], datasets: [] };
