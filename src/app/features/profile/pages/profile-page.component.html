@@ -129,26 +129,79 @@
         (ngSubmit)="saveProfile()"
         class="settings-form"
       >
-
         <mat-form-field appearance="outline">
           <mat-label>Full Name</mat-label>
           <input matInput formControlName="fullName" />
-          <mat-error *ngIf="editForm.get('fullName')?.hasError('required')">Full name is required</mat-error>
-          <mat-error *ngIf="editForm.get('fullName')?.hasError('minlength')">Full name is too short</mat-error>
+          <mat-error *ngIf="editForm.get('fullName')?.hasError('required')"
+            >Full name is required</mat-error
+          >
+          <mat-error *ngIf="editForm.get('fullName')?.hasError('minlength')"
+            >Full name is too short</mat-error
+          >
         </mat-form-field>
 
         <mat-form-field appearance="outline">
           <mat-label>Email address</mat-label>
           <input matInput formControlName="email" />
-          <mat-error *ngIf="editForm.get('email')?.hasError('required')">Email is required</mat-error>
-          <mat-error *ngIf="editForm.get('email')?.hasError('email')">Invalid email</mat-error>
+          <mat-error *ngIf="editForm.get('email')?.hasError('required')"
+            >Email is required</mat-error
+          >
+          <mat-error *ngIf="editForm.get('email')?.hasError('email')"
+            >Invalid email</mat-error
+          >
         </mat-form-field>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Phone</mat-label>
-          <input matInput formControlName="phone" />
-          <mat-error *ngIf="editForm.get('phone')?.hasError('pattern')">Invalid phone number</mat-error>
-        </mat-form-field>
+        <div class="phone-fields">
+          <mat-form-field appearance="outline" class="country-select-field">
+            <mat-label>Country</mat-label>
+            <mat-select formControlName="phoneCountryCode">
+              <mat-select-trigger>
+                <span class="country-trigger">
+                  <span class="country-flag">{{
+                    selectedPhoneCountry.flag
+                  }}</span>
+                  <span>{{ selectedPhoneCountry.dialCode }}</span>
+                </span>
+              </mat-select-trigger>
+
+              <mat-option
+                *ngFor="let country of phoneCountries"
+                [value]="country.dialCode"
+              >
+                <span class="country-option">
+                  <span class="country-flag">{{ country.flag }}</span>
+                  <span class="country-name">{{ country.name }}</span>
+                  <span class="country-code">{{ country.dialCode }}</span>
+                </span>
+              </mat-option>
+            </mat-select>
+            <mat-error
+              *ngIf="editForm.get('phoneCountryCode')?.hasError('pattern')"
+            >
+              Enter a valid country code
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="phone-number-field">
+            <mat-label>Phone number</mat-label>
+            <span matPrefix class="dial-code-preview"
+              >{{ selectedPhoneCountry.dialCode }}&nbsp;</span
+            >
+            <input
+              matInput
+              formControlName="phoneNumber"
+              inputmode="numeric"
+              maxlength="10"
+              placeholder="10 digit number"
+            />
+            <mat-hint>Enter exactly 10 digits</mat-hint>
+            <mat-error
+              *ngIf="editForm.get('phoneNumber')?.hasError('pattern')"
+            >
+              Phone number must be exactly 10 digits
+            </mat-error>
+          </mat-form-field>
+        </div>
 
         <mat-form-field appearance="outline">
           <mat-label>Address</mat-label>

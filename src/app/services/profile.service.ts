@@ -6,9 +6,9 @@ export interface Profile {
   email: string;
   role: string;
   avatarUrl?: string;
-  fullName?: string;
-  phone?: string;
-  address?: string;
+  fullName?: string | null;
+  phone?: string | null;
+  address?: string | null;
 }
 
 @Injectable({ providedIn: 'root' })

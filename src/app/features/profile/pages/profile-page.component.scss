@@ -252,6 +252,46 @@
   width: 100%;
 }
 
+.phone-fields {
+  display: grid;
+  grid-template-columns: minmax(120px, 170px) minmax(0, 1fr);
+  gap: 0.85rem;
+}
+
+.country-select-field {
+  min-width: 0;
+}
+
+.country-trigger,
+.country-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.country-option {
+  width: 100%;
+}
+
+.country-flag {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.country-name {
+  flex: 1;
+}
+
+.country-code,
+.dial-code-preview {
+  color: #0f6c5b;
+  font-weight: 600;
+}
+
+.phone-number-field input {
+  letter-spacing: 0.04em;
+}
+
 .form-actions {
   display: flex;
   justify-content: flex-start;
@@ -281,5 +321,9 @@
   .admin-setup-card {
     flex-direction: column;
     align-items: flex-start;
+  }
+
+  .phone-fields {
+    grid-template-columns: 1fr;
   }
 }

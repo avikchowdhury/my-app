@@ -7,12 +7,35 @@ import { AuthService } from '../../../services/auth.service';
 import { NotificationService } from '../../../services/notification.service';
 import { Profile, ProfileService } from '../../../services/profile.service';
 
+interface PhoneCountryOption {
+  name: string;
+  dialCode: string;
+  flag: string;
+}
+
+const PHONE_COUNTRIES: PhoneCountryOption[] = [
+  { name: 'India', dialCode: '+91', flag: '🇮🇳' },
+  { name: 'United States', dialCode: '+1', flag: '🇺🇸' },
+  { name: 'United Kingdom', dialCode: '+44', flag: '🇬🇧' },
+  { name: 'Canada', dialCode: '+1', flag: '🇨🇦' },
+  { name: 'Australia', dialCode: '+61', flag: '🇦🇺' },
+  { name: 'United Arab Emirates', dialCode: '+971', flag: '🇦🇪' },
+  { name: 'Germany', dialCode: '+49', flag: '🇩🇪' },
+  { name: 'France', dialCode: '+33', flag: '🇫🇷' },
+  { name: 'Singapore', dialCode: '+65', flag: '🇸🇬' },
+  { name: 'Japan', dialCode: '+81', flag: '🇯🇵' },
+  { name: 'South Korea', dialCode: '+82', flag: '🇰🇷' },
+  { name: 'Saudi Arabia', dialCode: '+966', flag: '🇸🇦' },
+];
+
 @Component({
   selector: 'app-profile-page',
   templateUrl: './profile-page.component.html',
   styleUrls: ['./profile-page.component.scss'],
 })
 export class ProfilePageComponent implements OnInit {
+  readonly defaultCountryCode = '+91';
+  readonly phoneCountries = PHONE_COUNTRIES;
   showOldPassword = false;
   showNewPassword = false;
   profile: Profile | null = null;
@@ -34,7 +57,11 @@ export class ProfilePageComponent implements OnInit {
     this.editForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       fullName: ['', [Validators.required, Validators.minLength(2)]],
-      phone: ['', [Validators.pattern(/^\+?[0-9\- ]{7,20}$/)]],
+      phoneCountryCode: [
+        this.defaultCountryCode,
+        [Validators.pattern(/^\+\d{1,4}$/)],
+      ],
+      phoneNumber: ['', [Validators.pattern(/^\d{10}$/)]],
       address: [''],
     });
     this.passwordForm = this.fb.group({
@@ -52,15 +79,28 @@ export class ProfilePageComponent implements OnInit {
     return email ? email.slice(0, 2).toUpperCase() : 'AI';
   }
 
+  get selectedPhoneCountry(): PhoneCountryOption {
+    const selectedDialCode =
+      this.editForm.get('phoneCountryCode')?.value || this.defaultCountryCode;
+
+    return (
+      this.phoneCountries.find(
+        (country) => country.dialCode === selectedDialCode,
+      ) || this.phoneCountries[0]
+    );
+  }
+
   loadProfile() {
     this.loading = true;
     this.profileService.getProfile().subscribe({
       next: (profile) => {
         this.profile = profile;
+        const phoneParts = this.parsePhone(profile.phone);
         this.editForm.patchValue({
           email: profile.email,
           fullName: profile.fullName || '',
-          phone: profile.phone || '',
+          phoneCountryCode: phoneParts.countryCode,
+          phoneNumber: phoneParts.phoneNumber,
           address: profile.address || '',
         });
         this.loading = false;
@@ -74,24 +114,79 @@ export class ProfilePageComponent implements OnInit {
 
   saveProfile() {
     if (this.editForm.invalid || this.savingProfile) return;
-    const { email, fullName, phone, address } = this.editForm.value;
+    const { email, fullName, address } = this.editForm.value;
     this.savingProfile = true;
-    this.profileService.updateProfile({ email, fullName, phone, address }).subscribe({
-      next: (profile) => {
-        this.notification.success('Profile updated');
-        this.profile = profile;
-        this.editForm.patchValue({
-          email: profile.email,
-          fullName: profile.fullName || '',
-          phone: profile.phone || '',
-          address: profile.address || '',
-        });
-      },
-      error: () => this.notification.error('Failed to update profile'),
-      complete: () => {
-        this.savingProfile = false;
-      },
-    });
+    this.profileService
+      .updateProfile({
+        email,
+        fullName,
+        phone: this.buildPhoneValue(),
+        address,
+      })
+      .subscribe({
+        next: (profile) => {
+          this.notification.success('Profile updated');
+          this.profile = profile;
+          const phoneParts = this.parsePhone(profile.phone);
+          this.editForm.patchValue({
+            email: profile.email,
+            fullName: profile.fullName || '',
+            phoneCountryCode: phoneParts.countryCode,
+            phoneNumber: phoneParts.phoneNumber,
+            address: profile.address || '',
+          });
+        },
+        error: () => this.notification.error('Failed to update profile'),
+        complete: () => {
+          this.savingProfile = false;
+        },
+      });
+  }
+
+  private parsePhone(phone?: string | null): {
+    countryCode: string;
+    phoneNumber: string;
+  } {
+    if (!phone) {
+      return {
+        countryCode: this.defaultCountryCode,
+        phoneNumber: '',
+      };
+    }
+
+    const digits = phone.replace(/\D/g, '');
+    if (digits.length <= 10) {
+      return {
+        countryCode: this.defaultCountryCode,
+        phoneNumber: digits.slice(-10),
+      };
+    }
+
+    const candidateCountryCode = `+${digits.slice(0, -10)}`;
+    const matchedCountry = this.phoneCountries.find(
+      (country) => country.dialCode === candidateCountryCode,
+    );
+
+    return {
+      countryCode: matchedCountry?.dialCode || this.defaultCountryCode,
+      phoneNumber: digits.slice(-10),
+    };
+  }
+
+  private buildPhoneValue(): string | null {
+    const phoneNumber = String(
+      this.editForm.get('phoneNumber')?.value ?? '',
+    ).replace(/\D/g, '');
+
+    if (!phoneNumber) {
+      return null;
+    }
+
+    const countryCode = String(
+      this.editForm.get('phoneCountryCode')?.value || this.defaultCountryCode,
+    ).replace(/[^\d+]/g, '');
+
+    return `${countryCode}${phoneNumber}`;
   }
 
   changePassword() {
