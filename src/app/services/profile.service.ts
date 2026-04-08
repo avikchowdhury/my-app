@@ -6,6 +6,9 @@ export interface Profile {
   email: string;
   role: string;
   avatarUrl?: string;
+  fullName?: string;
+  phone?: string;
+  address?: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -22,9 +25,9 @@ export class ProfileService {
       .pipe(tap((profile) => this.profileSubject.next(profile)));
   }
 
-  updateProfile(email: string): Observable<Profile> {
+  updateProfile(profileData: Partial<Profile>): Observable<Profile> {
     return this.http
-      .put<Profile>(this.apiUrl, { email })
+      .put<Profile>(this.apiUrl, profileData)
       .pipe(tap((profile) => this.profileSubject.next(profile)));
   }
 

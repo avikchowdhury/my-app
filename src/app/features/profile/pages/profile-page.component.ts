@@ -33,6 +33,9 @@ export class ProfilePageComponent implements OnInit {
   ) {
     this.editForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
+      fullName: ['', [Validators.required, Validators.minLength(2)]],
+      phone: ['', [Validators.pattern(/^\+?[0-9\- ]{7,20}$/)]],
+      address: [''],
     });
     this.passwordForm = this.fb.group({
       oldPassword: ['', Validators.required],
@@ -54,7 +57,12 @@ export class ProfilePageComponent implements OnInit {
     this.profileService.getProfile().subscribe({
       next: (profile) => {
         this.profile = profile;
-        this.editForm.patchValue({ email: profile.email });
+        this.editForm.patchValue({
+          email: profile.email,
+          fullName: profile.fullName || '',
+          phone: profile.phone || '',
+          address: profile.address || '',
+        });
         this.loading = false;
       },
       error: () => {
@@ -66,13 +74,18 @@ export class ProfilePageComponent implements OnInit {
 
   saveProfile() {
     if (this.editForm.invalid || this.savingProfile) return;
-    const email = this.editForm.value.email;
+    const { email, fullName, phone, address } = this.editForm.value;
     this.savingProfile = true;
-    this.profileService.updateProfile(email).subscribe({
+    this.profileService.updateProfile({ email, fullName, phone, address }).subscribe({
       next: (profile) => {
         this.notification.success('Profile updated');
         this.profile = profile;
-        this.editForm.patchValue({ email: profile.email });
+        this.editForm.patchValue({
+          email: profile.email,
+          fullName: profile.fullName || '',
+          phone: profile.phone || '',
+          address: profile.address || '',
+        });
       },
       error: () => this.notification.error('Failed to update profile'),
       complete: () => {

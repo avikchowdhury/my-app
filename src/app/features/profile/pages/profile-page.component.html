@@ -129,15 +129,30 @@
         (ngSubmit)="saveProfile()"
         class="settings-form"
       >
+
+        <mat-form-field appearance="outline">
+          <mat-label>Full Name</mat-label>
+          <input matInput formControlName="fullName" />
+          <mat-error *ngIf="editForm.get('fullName')?.hasError('required')">Full name is required</mat-error>
+          <mat-error *ngIf="editForm.get('fullName')?.hasError('minlength')">Full name is too short</mat-error>
+        </mat-form-field>
+
         <mat-form-field appearance="outline">
           <mat-label>Email address</mat-label>
           <input matInput formControlName="email" />
-          <mat-error *ngIf="editForm.get('email')?.hasError('required')"
-            >Email is required</mat-error
-          >
-          <mat-error *ngIf="editForm.get('email')?.hasError('email')"
-            >Invalid email</mat-error
-          >
+          <mat-error *ngIf="editForm.get('email')?.hasError('required')">Email is required</mat-error>
+          <mat-error *ngIf="editForm.get('email')?.hasError('email')">Invalid email</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Phone</mat-label>
+          <input matInput formControlName="phone" />
+          <mat-error *ngIf="editForm.get('phone')?.hasError('pattern')">Invalid phone number</mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Address</mat-label>
+          <textarea matInput formControlName="address" rows="2"></textarea>
         </mat-form-field>
 
         <div class="form-actions">
