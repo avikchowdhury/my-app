@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, shareReplay, tap } from 'rxjs';
 import {
   AiChatRequest,
   AiChatResponse,
@@ -9,18 +9,36 @@ import {
 } from '../models';
 
 const API_BASE = '/api';
+const DEFAULT_CACHE_TTL_MS = 20_000;
+
+interface CacheEntry<T> {
+  expiresAt: number;
+  value$: Observable<T>;
+}
 
 @Injectable({ providedIn: 'root' })
 export class AiAssistantService {
   constructor(private http: HttpClient) {}
 
-  getInsights(): Observable<AiInsightSnapshot> {
-    return this.http.get<AiInsightSnapshot>(`${API_BASE}/ai/insights`);
+  private readonly requestCache = new Map<string, CacheEntry<unknown>>();
+
+  getInsights(forceRefresh = false): Observable<AiInsightSnapshot> {
+    return this.getCached(
+      'ai-insights',
+      () => this.http.get<AiInsightSnapshot>(`${API_BASE}/ai/insights`),
+      forceRefresh,
+    );
   }
 
-  getSubscriptions(): Observable<AiSubscriptionInsight[]> {
-    return this.http.get<AiSubscriptionInsight[]>(
-      `${API_BASE}/ai/subscriptions`,
+  getSubscriptions(forceRefresh = false): Observable<AiSubscriptionInsight[]> {
+    return this.getCached(
+      'ai-subscriptions',
+      () =>
+        this.http.get<AiSubscriptionInsight[]>(
+          `${API_BASE}/ai/subscriptions`,
+        ),
+      forceRefresh,
+      60_000,
     );
   }
 
@@ -28,22 +46,39 @@ export class AiAssistantService {
     return this.http.post<AiChatResponse>(`${API_BASE}/ai/chat`, payload);
   }
 
-  getSpendingAnomalies(): Observable<SpendingAnomaly[]> {
-    return this.http.get<SpendingAnomaly[]>(
-      `${API_BASE}/ai/spending-anomalies`,
+  getSpendingAnomalies(forceRefresh = false): Observable<SpendingAnomaly[]> {
+    return this.getCached(
+      'ai-anomalies',
+      () =>
+        this.http.get<SpendingAnomaly[]>(`${API_BASE}/ai/spending-anomalies`),
+      forceRefresh,
     );
   }
 
-  getMonthlySummary(): Observable<MonthlySummary> {
-    return this.http.get<MonthlySummary>(`${API_BASE}/ai/monthly-summary`);
+  getMonthlySummary(forceRefresh = false): Observable<MonthlySummary> {
+    return this.getCached(
+      'ai-monthly-summary',
+      () => this.http.get<MonthlySummary>(`${API_BASE}/ai/monthly-summary`),
+      forceRefresh,
+    );
   }
 
-  getForecast(): Observable<SpendingForecast> {
-    return this.http.get<SpendingForecast>(`${API_BASE}/ai/forecast`);
+  getForecast(forceRefresh = false): Observable<SpendingForecast> {
+    return this.getCached(
+      'ai-forecast',
+      () => this.http.get<SpendingForecast>(`${API_BASE}/ai/forecast`),
+      forceRefresh,
+      15_000,
+    );
   }
 
-  getNotifications(): Observable<AppNotification[]> {
-    return this.http.get<AppNotification[]>(`${API_BASE}/notifications`);
+  getNotifications(forceRefresh = false): Observable<AppNotification[]> {
+    return this.getCached(
+      'ai-notifications',
+      () => this.http.get<AppNotification[]>(`${API_BASE}/notifications`),
+      forceRefresh,
+      15_000,
+    );
   }
 
   parseTextExpense(text: string): Observable<ParseTextResult> {
@@ -52,8 +87,13 @@ export class AiAssistantService {
     });
   }
 
-  getVendorAnalysis(): Observable<VendorAnalysis> {
-    return this.http.get<VendorAnalysis>(`${API_BASE}/ai/vendor-analysis`);
+  getVendorAnalysis(forceRefresh = false): Observable<VendorAnalysis> {
+    return this.getCached(
+      'ai-vendor-analysis',
+      () => this.http.get<VendorAnalysis>(`${API_BASE}/ai/vendor-analysis`),
+      forceRefresh,
+      30_000,
+    );
   }
 
   checkDuplicate(
@@ -80,6 +120,49 @@ export class AiAssistantService {
         document.body.removeChild(a);
         window.URL.revokeObjectURL(url);
       });
+  }
+
+  invalidateInsightCache(): void {
+    this.clearCache(
+      'ai-insights',
+      'ai-subscriptions',
+      'ai-anomalies',
+      'ai-monthly-summary',
+      'ai-forecast',
+      'ai-notifications',
+      'ai-vendor-analysis',
+    );
+  }
+
+  private getCached<T>(
+    key: string,
+    requestFactory: () => Observable<T>,
+    forceRefresh = false,
+    ttlMs = DEFAULT_CACHE_TTL_MS,
+  ): Observable<T> {
+    const now = Date.now();
+    const cached = this.requestCache.get(key) as CacheEntry<T> | undefined;
+    if (!forceRefresh && cached && cached.expiresAt > now) {
+      return cached.value$;
+    }
+
+    const value$ = requestFactory().pipe(
+      tap({
+        error: () => this.requestCache.delete(key),
+      }),
+      shareReplay({ bufferSize: 1, refCount: false }),
+    );
+
+    this.requestCache.set(key, {
+      expiresAt: now + ttlMs,
+      value$,
+    });
+
+    return value$;
+  }
+
+  private clearCache(...keys: string[]): void {
+    keys.forEach((key) => this.requestCache.delete(key));
   }
 }
 

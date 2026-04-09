@@ -1,17 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import {
   AiAssistantService,
   DailySpendPoint,
   SpendingForecast,
 } from '../../../services/ai-assistant.service';
 
+interface ForecastBarPoint extends DailySpendPoint {
+  barHeight: number;
+}
+
 @Component({
   selector: 'app-forecast-page',
   templateUrl: './forecast-page.component.html',
   styleUrls: ['./forecast-page.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ForecastPageComponent implements OnInit {
   forecast: SpendingForecast | null = null;
+  chartDays: ForecastBarPoint[] = [];
   loading = true;
   loadError = false;
 
@@ -21,36 +27,25 @@ export class ForecastPageComponent implements OnInit {
     this.load();
   }
 
-  load(): void {
+  load(forceRefresh = false): void {
     this.loading = true;
     this.loadError = false;
-    this.aiService.getForecast().subscribe({
+    this.aiService.getForecast(forceRefresh).subscribe({
       next: (f) => {
-        this.forecast = f;
+        this.setForecast(f);
         this.loading = false;
       },
       error: () => {
         this.loadError = true;
+        this.forecast = null;
+        this.chartDays = [];
         this.loading = false;
       },
     });
   }
 
-  get actualDays(): DailySpendPoint[] {
-    return this.forecast?.dailyBreakdown.filter((d) => !d.isProjected) ?? [];
-  }
-
-  get projectedDays(): DailySpendPoint[] {
-    return this.forecast?.dailyBreakdown.filter((d) => d.isProjected) ?? [];
-  }
-
-  get maxBarAmount(): number {
-    const all = this.forecast?.dailyBreakdown ?? [];
-    return Math.max(...all.map((d) => d.amount), 1);
-  }
-
-  barHeight(amount: number): number {
-    return Math.min(100, Math.round((amount / this.maxBarAmount) * 100));
+  trackDay(_: number, day: ForecastBarPoint): string {
+    return day.date;
   }
 
   get trendClass(): string {
@@ -69,5 +64,21 @@ export class ForecastPageComponent implements OnInit {
     if (t === 'critical') return 'trending_up';
     if (t === 'warning') return 'warning_amber';
     return 'check_circle';
+  }
+
+  private setForecast(forecast: SpendingForecast): void {
+    const maxBarAmount = Math.max(
+      ...forecast.dailyBreakdown.map((day) => day.amount),
+      1,
+    );
+
+    this.forecast = forecast;
+    this.chartDays = forecast.dailyBreakdown.map((day) => ({
+      ...day,
+      barHeight: Math.min(
+        100,
+        Math.round((day.amount / maxBarAmount) * 100),
+      ),
+    }));
   }
 }

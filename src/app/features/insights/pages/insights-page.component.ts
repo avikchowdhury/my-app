@@ -48,14 +48,14 @@ export class InsightsPageComponent implements OnInit {
     this.loadAll();
   }
 
-  private loadAll(): void {
+  private loadAll(forceRefresh = false): void {
     this.loading = true;
     this.loadError = false;
 
     forkJoin({
-      snapshot: this.aiService.getInsights(),
-      summary: this.aiService.getMonthlySummary(),
-      subscriptions: this.aiService.getSubscriptions(),
+      snapshot: this.aiService.getInsights(forceRefresh),
+      summary: this.aiService.getMonthlySummary(forceRefresh),
+      subscriptions: this.aiService.getSubscriptions(forceRefresh),
     }).subscribe({
       next: ({ snapshot, summary, subscriptions }) => {
         this.snapshot = snapshot;
@@ -78,9 +78,9 @@ export class InsightsPageComponent implements OnInit {
     }
   }
 
-  loadVendors(): void {
+  loadVendors(forceRefresh = false): void {
     this.vendorLoading = true;
-    this.aiService.getVendorAnalysis().subscribe({
+    this.aiService.getVendorAnalysis(forceRefresh).subscribe({
       next: (v) => {
         this.vendorAnalysis = v;
         this.vendorLoading = false;
@@ -103,8 +103,9 @@ export class InsightsPageComponent implements OnInit {
   }
 
   reload(): void {
+    this.aiService.invalidateInsightCache();
     this.vendorAnalysis = null;
-    this.loadAll();
+    this.loadAll(true);
   }
 
   askAi(): void {

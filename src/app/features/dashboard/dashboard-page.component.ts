@@ -97,7 +97,7 @@ export class DashboardPageComponent implements OnInit {
 
   syncAi(): void {
     this.syncing = true;
-    this.aiAssistantService.getInsights().subscribe({
+    this.aiAssistantService.getInsights(true).subscribe({
       next: (snapshot) => {
         this.aiSnapshot = snapshot;
         this.metrics = this.buildMetrics(

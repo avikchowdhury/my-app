@@ -7,7 +7,7 @@
         <p>AI-powered month-end projection based on your current pace</p>
       </div>
     </div>
-    <button mat-stroked-button (click)="load()" [disabled]="loading">
+    <button mat-stroked-button (click)="load(true)" [disabled]="loading">
       <mat-icon>refresh</mat-icon> Refresh
     </button>
   </div>
@@ -21,7 +21,7 @@
     <mat-icon>error_outline</mat-icon>
     <p>
       Could not load forecast.
-      <button mat-button (click)="load()">Retry</button>
+      <button mat-button (click)="load(true)">Retry</button>
     </p>
   </div>
 
@@ -63,14 +63,14 @@
       <h3>Daily Spend — Actual vs Projected</h3>
       <div class="bar-chart">
         <div
-          *ngFor="let day of forecast.dailyBreakdown"
+          *ngFor="let day of chartDays; trackBy: trackDay"
           class="bar-col"
           [title]="day.date + ': ' + (day.amount | currency)"
         >
           <div
             class="bar"
             [class.projected]="day.isProjected"
-            [style.height.%]="barHeight(day.amount)"
+            [style.height.%]="day.barHeight"
           ></div>
           <span class="bar-label">{{ day.date | date: "d" }}</span>
         </div>
