@@ -1,10 +1,66 @@
 <mat-card class="chat-panel">
+
+  <!-- Header -->
   <div class="chat-header">
-    <div>
-      <mat-card-title>Ask your Expense Tracker AI Friend</mat-card-title>
-      <mat-card-subtitle>Chat with the app using your real budget and receipt activity as context.</mat-card-subtitle>
+    <div class="chat-header-title-row">
+      <div>
+        <mat-card-title>AI Expense Assistant</mat-card-title>
+        <mat-card-subtitle>Powered by your real budget &amp; receipt data</mat-card-subtitle>
+      </div>
+      <button
+        mat-icon-button
+        type="button"
+        class="clear-btn"
+        matTooltip="Clear chat"
+        (click)="clearChat()"
+        *ngIf="messages.length > 1"
+      >
+        <mat-icon>delete_sweep</mat-icon>
+      </button>
     </div>
 
+    <!-- Monthly summary strip -->
+    <div class="summary-strip" *ngIf="!summaryLoading && monthlySummary">
+      <div class="summary-chips">
+        <span class="summary-chip primary">
+          <mat-icon>calendar_today</mat-icon>
+          {{ monthlySummary.month }}
+        </span>
+        <span class="summary-chip">
+          <mat-icon>receipt_long</mat-icon>
+          {{ monthlySummary.receiptCount }} receipts
+        </span>
+        <span class="summary-chip accent">
+          <mat-icon>attach_money</mat-icon>
+          ${{ monthlySummary.totalSpend | number:'1.0-0' }} total
+        </span>
+        <span class="summary-chip" *ngIf="monthlySummary.topCategory !== 'N/A'">
+          <mat-icon>trending_up</mat-icon>
+          Top: {{ monthlySummary.topCategory }}
+        </span>
+      </div>
+      <p class="summary-ai-text" *ngIf="monthlySummary.aiSummary">{{ monthlySummary.aiSummary }}</p>
+    </div>
+
+    <!-- Anomaly pills -->
+    <div class="anomaly-strip" *ngIf="anomalies.length > 0">
+      <span class="anomaly-label">
+        <mat-icon>warning_amber</mat-icon> Spending spikes detected:
+      </span>
+      <button
+        mat-stroked-button
+        type="button"
+        class="anomaly-pill"
+        *ngFor="let a of anomalies"
+        [class.warning]="a.severity === 'warning'"
+        [class.critical]="a.severity === 'critical'"
+        (click)="usePrompt('Why is my ' + a.category + ' spending so high?')"
+      >
+        {{ a.category }} +{{ a.percentageIncrease | number:'1.0-0' }}%
+      </button>
+    </div>
+
+    <!-- Starter prompts -->
     <div class="prompt-list">
       <button mat-stroked-button type="button" *ngFor="let starter of starterPrompts" (click)="usePrompt(starter)">
         {{ starter }}
@@ -12,26 +68,35 @@
     </div>
   </div>
 
+  <!-- Message list -->
   <div class="message-shell">
     <div class="message-list" #messageList>
       <article
         class="message"
-        *ngFor="let message of messages; trackBy: trackByMessage"
+        *ngFor="let message of messages; let i = index; trackBy: trackByMessage"
         [class.assistant]="message.role === 'assistant'"
         [class.user]="message.role === 'user'"
       >
         <div class="message-badge">
-          <span class="badge-pill">{{
-            message.role === 'assistant' ? 'AI Friend' : 'You'
-          }}</span>
-          <small *ngIf="message.createdAt">{{
-            message.createdAt | date:'shortTime'
-          }}</small>
+          <span class="badge-pill">{{ message.role === 'assistant' ? 'AI Assistant' : 'You' }}</span>
+          <small *ngIf="message.createdAt">{{ message.createdAt | date:'shortTime' }}</small>
         </div>
 
         <div class="message-content">
           <p>{{ message.content }}</p>
         </div>
+
+        <!-- Copy button (assistant messages only) -->
+        <button
+          mat-icon-button
+          type="button"
+          class="copy-btn"
+          *ngIf="message.role === 'assistant'"
+          [matTooltip]="copiedIndex === i ? 'Copied!' : 'Copy'"
+          (click)="copyMessage(message.content, i)"
+        >
+          <mat-icon>{{ copiedIndex === i ? 'check' : 'content_copy' }}</mat-icon>
+        </button>
 
         <small class="evidence" *ngIf="message.response?.evidenceSummary">
           {{ message.response?.evidenceSummary }}
@@ -72,26 +137,40 @@
         </div>
       </article>
 
+      <!-- Typing indicator -->
       <article class="message assistant pending-message" *ngIf="loading">
         <div class="message-badge">
-          <span class="badge-pill">AI Friend</span>
+          <span class="badge-pill">AI Assistant</span>
         </div>
-
-        <div class="message-content">
-          <p>Thinking through your expense data...</p>
+        <div class="typing-indicator">
+          <span></span><span></span><span></span>
         </div>
       </article>
     </div>
   </div>
 
+  <!-- Input form -->
   <form class="chat-form" (ngSubmit)="submit()">
-    <mat-form-field appearance="outline">
-      <mat-label>Ask about your spending</mat-label>
-      <input matInput [(ngModel)]="prompt" name="prompt" placeholder="Where am I most likely to overspend?" />
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-      {{ loading ? 'Thinking...' : 'Send' }}
+    <div class="input-wrapper">
+      <mat-form-field appearance="outline" class="chat-input-field">
+        <mat-label>Ask about your spending</mat-label>
+        <input
+          matInput
+          [(ngModel)]="prompt"
+          name="prompt"
+          [maxlength]="maxLength"
+          placeholder="Where am I most likely to overspend?"
+          autocomplete="off"
+        />
+      </mat-form-field>
+      <span class="char-counter" [class.near-limit]="promptNearLimit" *ngIf="promptLength > 0">
+        {{ promptLength }}/{{ maxLength }}
+      </span>
+    </div>
+    <button mat-raised-button color="primary" type="submit" [disabled]="loading || !prompt.trim()">
+      <mat-icon>send</mat-icon>
+      {{ loading ? 'Thinking…' : 'Send' }}
     </button>
   </form>
+
 </mat-card>
