@@ -84,6 +84,10 @@ export class DashboardPageComponent implements OnInit {
     private aiAssistantService: AiAssistantService
   ) {}
 
+  onExportToExcel(): void {
+    this.receiptService.exportToExcel();
+  }
+
   ngOnInit(): void {
     forkJoin({
       monthly: this.analyticsService.getMonthlySpendings(6).pipe(catchError(() => of<MonthlySpendingItem[]>([]))),

@@ -74,4 +74,17 @@ export class ReceiptService {
       map((response) => response.data.slice(0, limit)),
     );
   }
+
+  exportToExcel(): void {
+    this.http.get(`${API_BASE}/export/excel`, { responseType: 'blob' }).subscribe((blob: Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'expenses.xlsx';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      window.URL.revokeObjectURL(url);
+    });
+  }
 }

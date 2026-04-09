@@ -17,6 +17,17 @@
 
 .page-header {
   margin-bottom: 0;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.export-btn {
+  white-space: nowrap;
+  align-self: flex-start;
+  margin-top: 0.25rem;
+  font-size: 0.82rem;
 }
 
 .eyebrow {

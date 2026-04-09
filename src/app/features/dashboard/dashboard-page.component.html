@@ -6,6 +6,9 @@
         <h2>AI-first expense command center</h2>
         <p class="lead">Watch your cash flow, scan for risk, and ask the tracker what deserves action next.</p>
       </div>
+      <button mat-stroked-button color="primary" class="export-btn" (click)="onExportToExcel()" *ngIf="!loading && !loadError">
+        <mat-icon>download</mat-icon> Export Excel
+      </button>
     </header>
 
     <div class="hero-strip" *ngIf="!loading && !loadError">
