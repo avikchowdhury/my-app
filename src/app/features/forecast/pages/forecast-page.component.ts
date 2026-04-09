@@ -1,4 +1,9 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+} from '@angular/core';
 import {
   AiAssistantService,
   DailySpendPoint,
@@ -21,7 +26,10 @@ export class ForecastPageComponent implements OnInit {
   loading = true;
   loadError = false;
 
-  constructor(private aiService: AiAssistantService) {}
+  constructor(
+    private aiService: AiAssistantService,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.load();
@@ -30,16 +38,20 @@ export class ForecastPageComponent implements OnInit {
   load(forceRefresh = false): void {
     this.loading = true;
     this.loadError = false;
+    this.cdr.markForCheck();
+
     this.aiService.getForecast(forceRefresh).subscribe({
       next: (f) => {
         this.setForecast(f);
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.loadError = true;
         this.forecast = null;
         this.chartDays = [];
         this.loading = false;
+        this.cdr.markForCheck();
       },
     });
   }
