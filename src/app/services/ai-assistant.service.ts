@@ -47,19 +47,39 @@ export class AiAssistantService {
   }
 
   parseTextExpense(text: string): Observable<ParseTextResult> {
-    return this.http.post<ParseTextResult>(`${API_BASE}/ai/parse-text`, { text });
+    return this.http.post<ParseTextResult>(`${API_BASE}/ai/parse-text`, {
+      text,
+    });
   }
 
   getVendorAnalysis(): Observable<VendorAnalysis> {
     return this.http.get<VendorAnalysis>(`${API_BASE}/ai/vendor-analysis`);
   }
 
-  checkDuplicate(vendor: string, amount: number, date: string): Observable<DuplicateCheckResult> {
-    return this.http.post<DuplicateCheckResult>(`${API_BASE}/ai/check-duplicate`, { vendor, amount, date });
+  checkDuplicate(
+    vendor: string,
+    amount: number,
+    date: string,
+  ): Observable<DuplicateCheckResult> {
+    return this.http.post<DuplicateCheckResult>(
+      `${API_BASE}/ai/check-duplicate`,
+      { vendor, amount, date },
+    );
   }
 
   exportAiReport(): void {
-    window.open(`${API_BASE}/export/report`, '_blank');
+    this.http
+      .get(`${API_BASE}/export/report`, { responseType: 'blob' })
+      .subscribe((blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'ai-expense-report.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      });
   }
 }
 

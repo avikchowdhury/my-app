@@ -1,9 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import {
+  AiAssistantService,
+  AppNotification,
+} from '../services/ai-assistant.service';
 import { AuthService } from '../services/auth.service';
 import { Profile, ProfileService } from '../services/profile.service';
-import { AiAssistantService, AppNotification } from '../services/ai-assistant.service';
 
 interface NavigationItem {
   label: string;
@@ -63,13 +66,17 @@ export class AppShellComponent implements OnInit, OnDestroy {
 
   loadNotifications(): void {
     this.aiService.getNotifications().subscribe({
-      next: (n) => { this.notifications = n; },
+      next: (n) => {
+        this.notifications = n;
+      },
       error: () => undefined,
     });
   }
 
   get unreadCount(): number {
-    return this.notifications.filter((n) => n.severity === 'critical' || n.severity === 'warning').length;
+    return this.notifications.filter(
+      (n) => n.severity === 'critical' || n.severity === 'warning',
+    ).length;
   }
 
   toggleNotifPanel(): void {

@@ -40,7 +40,10 @@ export class ReceiptsPageComponent implements OnInit {
   nlPanelOpen = false;
   nlText = '';
   nlParsing = false;
-  nlResult: import('../../services/ai-assistant.service').ParseTextResult | null = null;
+  nlSaving = false;
+  nlResult:
+    | import('../../services/ai-assistant.service').ParseTextResult
+    | null = null;
 
   // Duplicate check
   duplicateWarning: string | null = null;
@@ -126,7 +129,11 @@ export class ReceiptsPageComponent implements OnInit {
         this.aiPreview = preview;
         this.parsingPreview = false;
         if (preview.vendor && preview.amount) {
-          this.checkDuplicateOnUpload(preview.vendor, preview.amount, preview.date || new Date().toISOString().slice(0, 10));
+          this.checkDuplicateOnUpload(
+            preview.vendor,
+            preview.amount,
+            preview.date || new Date().toISOString().slice(0, 10),
+          );
         }
       },
       error: () => {
@@ -190,6 +197,7 @@ export class ReceiptsPageComponent implements OnInit {
     this.nlPanelOpen = false;
     this.nlText = '';
     this.nlResult = null;
+    this.nlSaving = false;
   }
 
   parseNlText(): void {
@@ -201,7 +209,32 @@ export class ReceiptsPageComponent implements OnInit {
         this.nlResult = r;
         this.nlParsing = false;
       },
-      error: () => { this.nlParsing = false; },
+      error: () => {
+        this.nlParsing = false;
+      },
+    });
+  }
+
+  saveNlReceipt(): void {
+    if (!this.nlResult || this.nlSaving) return;
+    const { vendor, amount, category, date } = this.nlResult;
+    if (!vendor || !amount) {
+      this.notification.warning('Vendor and amount are required to save.', 'Cannot save');
+      return;
+    }
+    this.nlSaving = true;
+    const dateStr = date || new Date().toISOString().slice(0, 10);
+    this.receiptService.quickAddReceipt(vendor, amount, category ?? 'Uncategorized', dateStr).subscribe({
+      next: () => {
+        this.notification.success(`"${vendor}" added as a receipt.`, 'Saved');
+        this.nlSaving = false;
+        this.closeNlPanel();
+        this.loadReceipts();
+      },
+      error: () => {
+        this.notification.error('Failed to save the receipt.', 'Error');
+        this.nlSaving = false;
+      },
     });
   }
 

@@ -81,8 +81,13 @@ export class InsightsPageComponent implements OnInit {
   loadVendors(): void {
     this.vendorLoading = true;
     this.aiService.getVendorAnalysis().subscribe({
-      next: (v) => { this.vendorAnalysis = v; this.vendorLoading = false; },
-      error: () => { this.vendorLoading = false; },
+      next: (v) => {
+        this.vendorAnalysis = v;
+        this.vendorLoading = false;
+      },
+      error: () => {
+        this.vendorLoading = false;
+      },
     });
   }
 

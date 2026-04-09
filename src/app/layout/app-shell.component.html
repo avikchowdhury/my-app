@@ -21,21 +21,33 @@
 
       <!-- Notification Bell -->
       <div class="notif-bell-wrapper">
-        <button class="notif-bell" (click)="toggleNotifPanel()" [class.has-alerts]="unreadCount > 0">
+        <button
+          class="notif-bell"
+          (click)="toggleNotifPanel()"
+          [class.has-alerts]="unreadCount > 0"
+        >
           <mat-icon>notifications</mat-icon>
-          <span *ngIf="unreadCount > 0" class="notif-badge">{{ unreadCount }}</span>
+          <span *ngIf="unreadCount > 0" class="notif-badge">{{
+            unreadCount
+          }}</span>
         </button>
 
         <div class="notif-panel" *ngIf="notifPanelOpen">
           <div class="notif-panel-header">
             <strong>Notifications</strong>
-            <button mat-icon-button (click)="closeNotifPanel()"><mat-icon>close</mat-icon></button>
+            <button mat-icon-button (click)="closeNotifPanel()">
+              <mat-icon>close</mat-icon>
+            </button>
           </div>
           <div *ngIf="notifications.length === 0" class="notif-empty">
             <mat-icon>check_circle</mat-icon>
             <p>All clear — no active alerts</p>
           </div>
-          <div *ngFor="let n of notifications" class="notif-item" [class]="n.severity">
+          <div
+            *ngFor="let n of notifications"
+            class="notif-item"
+            [class]="n.severity"
+          >
             <mat-icon>{{ notifIcon(n.type) }}</mat-icon>
             <div class="notif-text">
               <strong>{{ n.title }}</strong>

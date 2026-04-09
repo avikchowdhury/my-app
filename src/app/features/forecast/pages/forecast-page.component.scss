@@ -49,7 +49,9 @@
     height: 48px;
   }
 
-  &.error { color: #e53935; }
+  &.error {
+    color: #e53935;
+  }
 }
 
 .trend-banner {
@@ -60,14 +62,31 @@
   border-radius: 12px;
   margin-bottom: 24px;
 
-  mat-icon { font-size: 28px; margin-top: 2px; }
+  mat-icon {
+    font-size: 28px;
+    margin-top: 2px;
+  }
 
-  strong { font-size: 1rem; }
-  p { margin: 4px 0 0; font-size: 0.9rem; }
+  strong {
+    font-size: 1rem;
+  }
+  p {
+    margin: 4px 0 0;
+    font-size: 0.9rem;
+  }
 
-  &.on-track { background: #e8f5e9; color: #2e7d32; }
-  &.warning   { background: #fff8e1; color: #f57f17; }
-  &.critical  { background: #ffebee; color: #c62828; }
+  &.on-track {
+    background: #e8f5e9;
+    color: #2e7d32;
+  }
+  &.warning {
+    background: #fff8e1;
+    color: #f57f17;
+  }
+  &.critical {
+    background: #ffebee;
+    color: #c62828;
+  }
 }
 
 .metrics-grid {
@@ -86,11 +105,25 @@
   flex-direction: column;
   gap: 4px;
 
-  .metric-label { font-size: 0.78rem; color: #888; text-transform: uppercase; letter-spacing: 0.5px; }
-  .metric-value { font-size: 1.8rem; font-weight: 700; color: #1a1a1a; }
-  .metric-sub   { font-size: 0.8rem; color: #aaa; }
+  .metric-label {
+    font-size: 0.78rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .metric-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #1a1a1a;
+  }
+  .metric-sub {
+    font-size: 0.8rem;
+    color: #aaa;
+  }
 
-  &.accent { border-left: 4px solid var(--primary, #5c6bc0); }
+  &.accent {
+    border-left: 4px solid var(--primary, #5c6bc0);
+  }
 }
 
 .chart-section {
@@ -151,7 +184,21 @@
   font-size: 0.8rem;
   color: #666;
 
-  span { display: flex; align-items: center; gap: 6px; }
-  .legend-actual span { width: 14px; height: 10px; background: #5c6bc0; border-radius: 2px; }
-  .legend-projected span { width: 14px; height: 10px; background: #b0bec5; border-radius: 2px; }
+  span {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .legend-actual span {
+    width: 14px;
+    height: 10px;
+    background: #5c6bc0;
+    border-radius: 2px;
+  }
+  .legend-projected span {
+    width: 14px;
+    height: 10px;
+    background: #b0bec5;
+    border-radius: 2px;
+  }
 }

@@ -89,4 +89,13 @@ export class ReceiptService {
         window.URL.revokeObjectURL(url);
       });
   }
+
+  quickAddReceipt(vendor: string, amount: number, category: string, date: string): Observable<ReceiptDto> {
+    return this.http.post<ReceiptDto>(`${API_BASE}/receipts/quick-add`, {
+      vendor,
+      amount,
+      category,
+      date,
+    });
+  }
 }

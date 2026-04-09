@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {
   AiAssistantService,
-  SpendingForecast,
   DailySpendPoint,
+  SpendingForecast,
 } from '../../../services/ai-assistant.service';
 
 @Component({

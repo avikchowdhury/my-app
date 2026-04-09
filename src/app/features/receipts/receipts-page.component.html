@@ -9,7 +9,12 @@
           with reusable controls.
         </p>
       </div>
-      <button mat-raised-button color="primary" class="nl-btn" (click)="openNlPanel()">
+      <button
+        mat-raised-button
+        color="primary"
+        class="nl-btn"
+        (click)="openNlPanel()"
+      >
         <mat-icon>edit_note</mat-icon> Quick Add (AI)
       </button>
     </header>
@@ -19,28 +24,64 @@
       <div class="nl-panel-header">
         <mat-icon>auto_awesome</mat-icon>
         <strong>Natural Language Expense Entry</strong>
-        <button mat-icon-button (click)="closeNlPanel()"><mat-icon>close</mat-icon></button>
+        <button mat-icon-button (click)="closeNlPanel()">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
-      <p class="nl-hint">Type a plain-English description, e.g. "I spent $45 at Dominos on pizza"</p>
+      <p class="nl-hint">
+        Type a plain-English description, e.g. "I spent $45 at Dominos on pizza"
+      </p>
       <div class="nl-input-row">
         <mat-form-field appearance="outline" class="nl-field">
           <mat-label>Describe your expense</mat-label>
-          <input matInput [(ngModel)]="nlText" (keydown.enter)="parseNlText()" placeholder="e.g. spent $12 at Starbucks" />
+          <input
+            matInput
+            [(ngModel)]="nlText"
+            (keydown.enter)="parseNlText()"
+            placeholder="e.g. spent $12 at Starbucks"
+          />
         </mat-form-field>
-        <button mat-raised-button color="primary" (click)="parseNlText()" [disabled]="!nlText.trim() || nlParsing">
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="parseNlText()"
+          [disabled]="!nlText.trim() || nlParsing"
+        >
           <mat-spinner *ngIf="nlParsing" diameter="18"></mat-spinner>
           <mat-icon *ngIf="!nlParsing">bolt</mat-icon>
           Parse
         </button>
       </div>
       <div class="nl-result" *ngIf="nlResult">
-        <div class="nl-result-row"><span>Vendor</span><strong>{{ nlResult.vendor }}</strong></div>
-        <div class="nl-result-row"><span>Amount</span><strong>{{ nlResult.amount | currency }}</strong></div>
-        <div class="nl-result-row"><span>Category</span><strong>{{ nlResult.category }}</strong></div>
-        <div class="nl-result-row"><span>Date</span><strong>{{ nlResult.date }}</strong></div>
+        <div class="nl-result-row">
+          <span>Vendor</span><strong>{{ nlResult.vendor }}</strong>
+        </div>
+        <div class="nl-result-row">
+          <span>Amount</span><strong>{{ nlResult.amount | currency }}</strong>
+        </div>
+        <div class="nl-result-row">
+          <span>Category</span><strong>{{ nlResult.category }}</strong>
+        </div>
+        <div class="nl-result-row">
+          <span>Date</span><strong>{{ nlResult.date }}</strong>
+        </div>
         <p *ngIf="!nlResult.parsed" class="nl-warn">
-          <mat-icon>info</mat-icon> AI couldn't fully parse this text — please verify the values before using them.
+          <mat-icon>info</mat-icon> AI couldn't fully parse this text — please
+          verify the values before using them.
         </p>
+        <div class="nl-result-actions">
+          <button
+            mat-raised-button
+            color="primary"
+            [disabled]="nlSaving"
+            (click)="saveNlReceipt()"
+          >
+            <mat-spinner *ngIf="nlSaving" diameter="18"></mat-spinner>
+            <mat-icon *ngIf="!nlSaving">save</mat-icon>
+            {{ nlSaving ? 'Saving…' : 'Save as Receipt' }}
+          </button>
+          <button mat-stroked-button (click)="closeNlPanel()">Discard</button>
+        </div>
       </div>
     </div>
 
@@ -92,7 +133,9 @@
         <strong>Possible duplicate receipt</strong>
         <p>{{ duplicateWarning }}</p>
       </div>
-      <button mat-icon-button (click)="dismissDuplicateWarning()"><mat-icon>close</mat-icon></button>
+      <button mat-icon-button (click)="dismissDuplicateWarning()">
+        <mat-icon>close</mat-icon>
+      </button>
     </div>
 
     <!-- AI post-upload insight -->

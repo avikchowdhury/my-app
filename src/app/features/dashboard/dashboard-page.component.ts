@@ -82,6 +82,7 @@ export class DashboardPageComponent implements OnInit {
   calendarReceipts: ReceiptDto[] = [];
   budgetStatus: BudgetStatus | null = null;
   aiSnapshot: AiInsightSnapshot | null = null;
+  syncing = false;
 
   constructor(
     private analyticsService: AnalyticsService,
@@ -92,6 +93,28 @@ export class DashboardPageComponent implements OnInit {
 
   onExportToExcel(): void {
     this.receiptService.exportToExcel();
+  }
+
+  syncAi(): void {
+    this.syncing = true;
+    this.aiAssistantService.getInsights().subscribe({
+      next: (snapshot) => {
+        this.aiSnapshot = snapshot;
+        this.metrics = this.buildMetrics(
+          this.barChartData.labels?.map((l, i) => ({
+            month: String(l),
+            total: (this.barChartData.datasets[0].data[i] as number) ?? 0,
+          })) ?? [],
+          this.recentReceipts,
+          this.budgetStatus,
+          snapshot,
+        );
+        this.syncing = false;
+      },
+      error: () => {
+        this.syncing = false;
+      },
+    });
   }
 
   ngOnInit(): void {

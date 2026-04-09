@@ -17,7 +17,11 @@
     >
       <mat-icon>refresh</mat-icon>
     </button>
-    <button mat-stroked-button (click)="downloadReport()" matTooltip="Download AI monthly report">
+    <button
+      mat-stroked-button
+      (click)="downloadReport()"
+      matTooltip="Download AI monthly report"
+    >
       <mat-icon>download</mat-icon> AI Report
     </button>
   </div>
@@ -255,31 +259,50 @@
         <p>Analysing vendors…</p>
       </div>
 
-      <div class="vendor-grid" *ngIf="!vendorLoading && vendorAnalysis?.topVendors?.length">
+      <div
+        class="vendor-grid"
+        *ngIf="!vendorLoading && vendorAnalysis?.topVendors?.length"
+      >
         <div class="vendor-card" *ngFor="let v of vendorAnalysis!.topVendors">
           <div class="vendor-header">
             <strong>{{ v.vendor }}</strong>
             <span class="trend-pill" [ngClass]="v.trend">
-              <mat-icon>{{ trendIcon(v.trend) }}</mat-icon>{{ v.trend }}
+              <mat-icon>{{ trendIcon(v.trend) }}</mat-icon
+              >{{ v.trend }}
             </span>
           </div>
           <div class="vendor-stats">
-            <div><small>Total spend</small><strong>{{ v.totalSpend | currency }}</strong></div>
-            <div><small>Visits</small><strong>{{ v.visitCount }}</strong></div>
-            <div><small>Avg</small><strong>{{ v.averageTransaction | currency }}</strong></div>
+            <div>
+              <small>Total spend</small
+              ><strong>{{ v.totalSpend | currency }}</strong>
+            </div>
+            <div>
+              <small>Visits</small><strong>{{ v.visitCount }}</strong>
+            </div>
+            <div>
+              <small>Avg</small
+              ><strong>{{ v.averageTransaction | currency }}</strong>
+            </div>
             <div *ngIf="v.changePercent !== null">
               <small>vs last month</small>
               <strong [ngClass]="v.changePercent! > 0 ? 'pct-up' : 'pct-down'">
-                {{ v.changePercent! > 0 ? '+' : '' }}{{ v.changePercent | number:'1.0-1' }}%
+                {{ v.changePercent! > 0 ? "+" : ""
+                }}{{ v.changePercent | number: "1.0-1" }}%
               </strong>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="empty-state" *ngIf="!vendorLoading && !vendorAnalysis?.topVendors?.length">
+      <div
+        class="empty-state"
+        *ngIf="!vendorLoading && !vendorAnalysis?.topVendors?.length"
+      >
         <mat-icon>storefront</mat-icon>
-        <p>No vendor data yet. Upload receipts with vendor information to see analysis.</p>
+        <p>
+          No vendor data yet. Upload receipts with vendor information to see
+          analysis.
+        </p>
       </div>
     </div>
 

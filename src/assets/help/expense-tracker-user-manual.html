@@ -121,13 +121,15 @@
       }
 
       .tips {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
         gap: 12px;
         margin-top: 18px;
       }
 
       .tip {
+        flex: 1 1 160px;
+        min-width: 0;
         padding: 16px;
         border-radius: 18px;
         background: var(--accent-soft);
@@ -138,6 +140,36 @@
         display: block;
         margin-bottom: 6px;
         color: var(--ink);
+      }
+
+      .tip span {
+        font-size: 14px;
+      }
+
+      .callout {
+        background: #fff8e1;
+        border: 1px solid #ffe082;
+        border-radius: 14px;
+        padding: 14px 18px;
+        margin: 14px 0 0;
+        color: #6d4c00;
+        font-size: 14px;
+        line-height: 1.6;
+      }
+
+      .callout strong {
+        color: #5a3a00;
+      }
+
+      .step-intro {
+        background: var(--accent-soft);
+        border-left: 4px solid var(--accent);
+        border-radius: 0 12px 12px 0;
+        padding: 12px 16px;
+        margin: 0 0 16px;
+        color: var(--ink);
+        font-size: 14px;
+        line-height: 1.6;
       }
 
       @media print {
@@ -164,115 +196,728 @@
   </head>
   <body>
     <main>
+      <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
       <article class="hero">
         <p class="eyebrow">AI Expense Tracker</p>
-        <h1>User Manual</h1>
+        <h1>Welcome — Let's Get You Started</h1>
         <p>
-          This guide walks users through receipts, budgets, categories, vendor
-          rules, dashboards, and the AI copilot so they can use the app step by
-          step without guessing where anything lives.
+          Never used an expense tracker before? No problem at all. This guide
+          explains every screen in plain language, tells you <em>why</em> each
+          feature exists, and walks you through exactly what to click — in the
+          right order. Set aside about 15 minutes and you will have everything
+          up and running.
         </p>
-
         <div class="hero-actions">
-          <a class="primary" href="javascript:window.print()">Print / Export PDF</a>
+          <a class="primary" href="javascript:window.print()">Print / Save as PDF</a>
           <a class="secondary" href="../sample-receipts/freshmart-groceries-87.45-receipt.pdf">Open Sample Receipt</a>
         </div>
       </article>
 
+      <!-- ═══════════════════════════ SECTION 1 ════════════════════════════ -->
       <section>
-        <h2>1. Getting Started</h2>
+        <h2>1. Create Your Account &amp; Sign In</h2>
+
+        <div class="step-intro">
+          Think of this as the front door. Until you create an account and
+          verify your email, nothing else is accessible. It only takes a minute.
+        </div>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">First time? Register here</h3>
         <ol>
-          <li>Register your account and verify your email with OTP.</li>
-          <li>Log in to open the main dashboard.</li>
-          <li>Open Profile to complete your personal details and upload an avatar.</li>
+          <li>
+            Open the app. You will land on the <strong>Login / Register</strong> page automatically.
+            Click the <strong>Register</strong> tab.
+          </li>
+          <li>
+            Fill in your <em>full name</em>, <em>email address</em>, and a
+            <em>password</em> (at least 8 characters). Your password is stored
+            securely — the app never stores it in plain text.
+          </li>
+          <li>Click <strong>Create Account</strong>.</li>
+          <li>
+            Check your inbox. You will receive a 6-digit code called an
+            <strong>OTP (One-Time Password)</strong>. Type it into the box that
+            appears on screen within 10 minutes.
+          </li>
+          <li>
+            ✅ <strong>What happens next:</strong> Your account is confirmed and
+            you are logged in automatically. The app takes you straight to the
+            Dashboard. You will not need to verify again.
+          </li>
         </ol>
-      </section>
 
-      <section>
-        <h2>2. Dashboard</h2>
-        <p>
-          The dashboard is the command center. It shows budget health, top
-          category, AI alerts, recurring-spend hints, charts, and the expense
-          copilot chat.
-        </p>
-        <ul>
-          <li>Use the charts to understand monthly and category spending.</li>
-          <li>Read the AI guidance cards for risks and next actions.</li>
-          <li>Use the copilot chat for natural-language questions.</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2>3. Receipts</h2>
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Already have an account? Log in</h3>
         <ol>
-          <li>Open Receipts and choose a PDF or image file.</li>
-          <li>Review the AI preview for vendor, amount, and category.</li>
-          <li>Correct the category if needed and save the receipt.</li>
-          <li>Use the filters and table to review older records.</li>
+          <li>Enter the email and password you registered with.</li>
+          <li>Click <strong>Log In</strong>.</li>
+          <li>
+            ✅ <strong>What happens next:</strong> You land on the Dashboard.
+            The app remembers your login for 24 hours, so you will not be
+            asked to log in again during that time.
+          </li>
         </ol>
-      </section>
 
-      <section>
-        <h2>4. Budgets</h2>
-        <p>
-          Budgets help the AI reason about risk and month-end forecasting.
-        </p>
-        <ul>
-          <li>Create category-based monthly budget rules.</li>
-          <li>Watch the budget advisor for projected spend and headroom.</li>
-          <li>Review the category watchlist to see which areas need attention.</li>
-        </ul>
-      </section>
+        <div class="callout">
+          <strong>OTP not in your inbox?</strong> Check your spam folder first.
+          If it still has not arrived after a minute, click
+          <strong>Resend OTP</strong> on the verification screen.
+        </div>
 
-      <section>
-        <h2>5. Categories And Vendor Rules</h2>
-        <ol>
-          <li>Create clean categories such as Groceries, Dining, Travel, or Housing.</li>
-          <li>Add vendor rules for repeat merchants.</li>
-          <li>Upload new receipts and confirm they auto-map correctly.</li>
-        </ol>
-      </section>
-
-      <section>
-        <h2>6. AI Copilot</h2>
-        <p>
-          The copilot can answer spending, subscription, receipt, and app usage
-          questions from your real data.
-        </p>
         <div class="tips">
           <div class="tip">
-            <strong>Ask about risk</strong>
-            <span>Example: How much budget risk do I have right now?</span>
+            <strong>Why email verification?</strong>
+            <span>It prevents anyone else from registering with your email address and accessing your financial data.</span>
           </div>
           <div class="tip">
-            <strong>Ask about subscriptions</strong>
-            <span>Example: Which subscriptions should I review first?</span>
-          </div>
-          <div class="tip">
-            <strong>Ask for workflow help</strong>
-            <span>Example: Where do I add vendor rules?</span>
+            <strong>Session expires after 24 h</strong>
+            <span>If you come back next day and see the login screen, that is normal — just log in again.</span>
           </div>
         </div>
       </section>
 
+      <!-- ═══════════════════════════ SECTION 2 ════════════════════════════ -->
       <section>
-        <h2>7. Sample Data Pack</h2>
+        <h2>2. First-Time Setup — Do These Three Things First</h2>
+
+        <div class="step-intro">
+          Before you upload any receipts, spend a few minutes on setup. The AI
+          inside this app learns from the labels and limits you create here. If
+          you skip setup, the AI cannot give you useful advice — so this is the
+          most important part of getting started.
+        </div>
+
+        <!-- 2a Categories -->
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Step A — Create Your Spending Categories</h3>
         <p>
-          The app includes a sample receipt pack for groceries, dining, travel,
-          housing, and subscriptions so the AI flows can be tested quickly.
+          <strong>What is a category?</strong> A category is simply a label
+          — like a folder — that groups similar expenses together. For example,
+          every time you buy food at a supermarket, that receipt goes into
+          &ldquo;Groceries&rdquo;. Every restaurant visit goes into
+          &ldquo;Dining&rdquo;. The AI uses these labels to analyse where your
+          money is going.
         </p>
+        <ol>
+          <li>Click <strong>Categories</strong> in the left sidebar.</li>
+          <li>Click <strong>+ New Category</strong>.</li>
+          <li>
+            Type a name that makes sense to you — common examples:
+            <em>Groceries, Dining, Transport, Housing, Subscriptions, Health, Entertainment, Travel.</em>
+          </li>
+          <li>Click <strong>Save</strong>. Repeat for each area of spending you want to track.</li>
+          <li>
+            ✅ <strong>What happens next:</strong> Every other part of the app —
+            the receipt uploader, budget planner, charts, and AI — will now offer
+            these categories as options.
+          </li>
+        </ol>
+        <div class="callout">
+          <strong>Not sure how many to create?</strong> Start with 4–6 broad
+          ones. You can always add more later. Having fewer, broader categories
+          is better than dozens of tiny ones.
+        </div>
+
+        <!-- 2b Vendor Rules -->
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Step B — Add Vendor Rules (Auto-Tagging)</h3>
+        <p>
+          <strong>What is a vendor rule?</strong> It is a shortcut. You tell the
+          app &ldquo;any receipt from Whole Foods belongs in Groceries&rdquo; —
+          and from then on it happens automatically, every time, with no manual
+          work from you.
+        </p>
+        <ol>
+          <li>Still on the Categories screen, find a category (e.g. <em>Groceries</em>) and click its row to expand it.</li>
+          <li>Open the <strong>Vendor Rules</strong> panel and click <strong>+ Add Rule</strong>.</li>
+          <li>
+            Type the vendor's name or a unique word from it — for example:
+            <em>Whole Foods, Netflix, Uber, Starbucks.</em>
+          </li>
+          <li>Click <strong>Save Rule</strong>.</li>
+          <li>
+            ✅ <strong>What happens next:</strong> The next time you upload a
+            receipt from that vendor, the category is filled in for you
+            automatically. The more rules you add, the less manual correction
+            you will ever need to do.
+          </li>
+        </ol>
+        <div class="callout">
+          <strong>Tip:</strong> Add rules for the 5–10 places you shop most
+          often. That covers the majority of your receipts immediately.
+        </div>
+
+        <!-- 2c Budgets -->
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Step C — Set Monthly Budgets</h3>
+        <p>
+          <strong>What is a budget?</strong> It is the maximum amount you want
+          to spend in a category per month. For example, you might decide you
+          want to spend no more than $400 on Groceries or $100 on Dining. The
+          app tracks how close you are getting to that limit and warns you
+          before you go over.
+        </p>
+        <ol>
+          <li>Click <strong>Budgets</strong> in the sidebar.</li>
+          <li>Click <strong>+ Add Budget</strong>.</li>
+          <li>
+            Choose a <em>category</em> from the dropdown (the ones you just
+            created) and type your <em>monthly limit</em> — e.g. $500.
+          </li>
+          <li>Click <strong>Save</strong>. Repeat for each category you care about.</li>
+          <li>
+            ✅ <strong>What happens next:</strong> The Dashboard, Budget Advisor,
+            Forecast page, and the notification bell all now compare your real
+            spending against these limits and alert you when things are drifting.
+          </li>
+        </ol>
+
+        <div class="tips">
+          <div class="tip">
+            <strong>No budget = no alerts</strong>
+            <span>Without a budget set for a category, the AI cannot warn you when you are overspending in it.</span>
+          </div>
+          <div class="tip">
+            <strong>Change it anytime</strong>
+            <span>If your limit feels too tight or too loose after the first month, just edit it. The AI adjusts instantly.</span>
+          </div>
+          <div class="tip">
+            <strong>Don't overthink the number</strong>
+            <span>Set a rough estimate for now. After one month of tracking receipts you will have real data to set a smarter limit.</span>
+          </div>
+        </div>
       </section>
 
+      <!-- ═══════════════════════════ SECTION 3 ════════════════════════════ -->
       <section>
-        <h2>8. Weekly Best Practice</h2>
+        <h2>3. The Dashboard — Your Financial Home Screen</h2>
+
+        <div class="step-intro">
+          After logging in, the Dashboard is the first screen you see. Think of
+          it as a daily health check for your money. You don't have to do
+          anything here — just read and observe. The AI does the analysis for you.
+        </div>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">What each part means</h3>
+        <ul>
+          <li>
+            <strong>Budget Health card</strong> — a single percentage showing how
+            much of your total monthly budget is already used up. Green is fine,
+            amber means you are approaching your limits, red means you are close
+            to or over budget.
+          </li>
+          <li>
+            <strong>Top Category</strong> — the one area where you have spent the
+            most money this month. Useful to spot patterns quickly.
+          </li>
+          <li>
+            <strong>AI Sync card</strong> — click <strong>Sync AI</strong> to ask
+            the system to re-read all your recent receipts and refresh its advice.
+            Do this once a day for the most up-to-date guidance.
+          </li>
+          <li>
+            <strong>Monthly Spend chart</strong> — a bar for each day of the
+            month showing how much you spent that day. Tall bars on weekends or
+            specific dates are easy to spot.
+          </li>
+          <li>
+            <strong>Category Breakdown chart</strong> — a donut showing what
+            percentage of your total spend went to each category. Instantly reveals
+            where most of your money is going.
+          </li>
+          <li>
+            <strong>AI Guidance cards</strong> — up to three written tips from
+            the AI. Examples: &ldquo;Dining is 20 % over pace — consider cooking
+            at home this week&rdquo; or &ldquo;Your Subscriptions budget is fine.&rdquo;
+          </li>
+          <li>
+            <strong>Export to Excel button</strong> — downloads all your receipts
+            as a spreadsheet — useful for sharing with an accountant.
+          </li>
+        </ul>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">The AI Copilot Chat — ask anything</h3>
+        <p>
+          At the bottom of the Dashboard is a chat panel. Type a question in plain
+          English and the AI answers using your actual spending data. You do not
+          need to know any commands or special words.
+        </p>
+        <div class="tips">
+          <div class="tip">
+            <strong>"How am I doing this month?"</strong>
+            <span>Get a plain-English summary of your spending versus budget.</span>
+          </div>
+          <div class="tip">
+            <strong>"What did I spend on dining?"</strong>
+            <span>The AI looks up your receipts and gives you the exact total.</span>
+          </div>
+          <div class="tip">
+            <strong>"Which budget is most at risk?"</strong>
+            <span>Instantly see where you are most likely to overspend before month end.</span>
+          </div>
+          <div class="tip">
+            <strong>"How do I add a vendor rule?"</strong>
+            <span>Ask the AI for help using the app itself — it knows every feature.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 4 ════════════════════════════ -->
+      <section>
+        <h2>4. Receipts — How to Add Your Expenses</h2>
+
+        <div class="step-intro">
+          Receipts are the core of the app. Every expense you add — whether
+          uploaded as a photo, a PDF, or typed as plain text — becomes a
+          &ldquo;receipt&rdquo; in the system. The more receipts you add, the
+          smarter and more accurate the AI becomes.
+        </div>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Option 1 — Upload a photo or PDF receipt</h3>
+        <p>This is the quickest and most accurate way. Just photograph your paper receipt or attach a digital PDF.</p>
         <ol>
-          <li>Upload the latest receipts.</li>
-          <li>Correct any uncategorized items.</li>
-          <li>Review vendor rules for repeat merchants.</li>
-          <li>Check the budget watchlist and dashboard alerts.</li>
-          <li>Ask the copilot for a summary and next actions.</li>
+          <li>
+            Click <strong>Receipts</strong> in the sidebar, then click
+            <strong>Upload Receipt</strong> in the top-right corner.
+          </li>
+          <li>Select a photo (JPG / PNG) or PDF from your device.</li>
+          <li>
+            The AI reads the receipt image in seconds and automatically fills in:
+            <ul style="margin-top:8px">
+              <li><strong>Vendor name</strong> — e.g. &ldquo;Whole Foods Market&rdquo;</li>
+              <li><strong>Amount</strong> — e.g. $87.45</li>
+              <li><strong>Date</strong> — pulled from the receipt itself</li>
+              <li><strong>Category</strong> — matched against your vendor rules, or AI's best guess</li>
+            </ul>
+          </li>
+          <li>
+            Look over the filled-in details. If the category is wrong, change it
+            using the dropdown. Everything else is usually correct.
+          </li>
+          <li>
+            <strong>Duplicate check:</strong> If you accidentally upload the same
+            receipt twice, a yellow warning banner appears at the top. You can
+            dismiss it and save anyway, or go back and check — your choice.
+          </li>
+          <li>Click <strong>Save</strong>.</li>
+          <li>
+            ✅ <strong>What happens next:</strong> The receipt is saved. A brief
+            AI note appears explaining what this purchase means for your budgets
+            — for example, &ldquo;This brings your Groceries spend to 78 % of budget.&rdquo;
+          </li>
+        </ol>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Option 2 — Quick Add (type it in words)</h3>
+        <p>
+          No receipt to hand? No problem. This feature lets you just describe the
+          purchase in plain English and the AI figures out the details.
+        </p>
+        <ol>
+          <li>Click <strong>Quick Add (AI)</strong> in the Receipts page header.</li>
+          <li>
+            Type what you spent in your own words. Examples:<br>
+            <em>&ldquo;Starbucks coffee $6.50 this morning&rdquo;</em><br>
+            <em>&ldquo;Paid $120 for electricity bill yesterday&rdquo;</em><br>
+            <em>&ldquo;Lunch at Subway for $9&rdquo;</em>
+          </li>
+          <li>Click <strong>Parse</strong>. The AI extracts vendor, amount, date, and category.</li>
+          <li>Review the result and click <strong>Save</strong> to confirm.</li>
+          <li>
+            ✅ <strong>What happens next:</strong> A proper receipt record is
+            created — identical to one uploaded from a photo. Great for cash
+            purchases or when you forget to keep the receipt.
+          </li>
+        </ol>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Viewing, editing and deleting receipts</h3>
+        <ul>
+          <li>
+            Use the <strong>search bar</strong> at the top of the Receipts page to
+            find a specific purchase by vendor name or amount.
+          </li>
+          <li>
+            Use the <strong>date and category filters</strong> to narrow down to a
+            time period or spending area.
+          </li>
+          <li>Click any row to see the full receipt details and the original image.</li>
+          <li>Click the <strong>pencil icon</strong> to edit any field.</li>
+          <li>Click the <strong>bin icon</strong> to delete (a confirmation box appears first — no accidents).</li>
+        </ul>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 5 ════════════════════════════ -->
+      <section>
+        <h2>5. AI Insights — Understand Your Spending Deeply</h2>
+
+        <div class="step-intro">
+          Once you have uploaded at least a week of receipts, the Insights page
+          becomes very powerful. It is like having a personal finance analyst
+          who reads all your data and writes you a report — but it updates
+          automatically and costs nothing extra.
+        </div>
+
+        <p>Click <strong>Insights</strong> in the sidebar. You will see four tabs.</p>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Tab 1 — Overview (start here)</h3>
+        <p>
+          This tab gives you the big picture. Even if you never look at the other
+          tabs, check this one regularly.
+        </p>
+        <ul>
+          <li><strong>AI Narrative</strong> — a paragraph written by the AI summarising your month so far in plain English.</li>
+          <li><strong>Risk cards</strong> — if any category is heading towards overspend, a coloured card appears here explaining it.</li>
+          <li><strong>Budget Advisor</strong> — a row for every budget showing projected end-of-month spend versus your limit. Green = safe, red = over.</li>
+          <li><strong>Budget Coach</strong> — one personalised suggestion on the single most useful thing you could change right now (e.g. &ldquo;Cut two dining visits this week and you will stay under budget&rdquo;).</li>
+        </ul>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Tab 2 — Subscriptions</h3>
+        <p>
+          Many people lose track of how many subscriptions they pay for — this
+          tab finds them all automatically by looking at recurring patterns in
+          your receipts.
+        </p>
+        <ul>
+          <li>Each subscription shows its name, monthly cost, and when it will charge next.</li>
+          <li>An AI <strong>risk score (1–10)</strong> suggests whether the subscription is worth keeping. A score of 8–10 means it charges a lot or is used rarely.</li>
+          <li>A calendar at the bottom shows upcoming charges in the next 30 days so there are no billing surprises.</li>
+        </ul>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Tab 3 — Anomalies</h3>
+        <p>
+          An anomaly is when you spend significantly more than usual in a category.
+          The AI compares this month to your own history and flags anything unusual.
+        </p>
+        <ul>
+          <li>Each card shows which category spiked, by how much in dollars, and what percentage above normal it is.</li>
+          <li>A written explanation helps you understand whether the spike is a one-off or a trend to watch.</li>
+        </ul>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Tab 4 — Vendors</h3>
+        <p>
+          Ever wonder which single shop or service takes the most of your money?
+          This tab tells you.
+        </p>
+        <ul>
+          <li>A grid of cards — one per vendor — shows your total spend, number of visits, and whether spending at that vendor went up or down versus last month (↑ or ↓).</li>
+          <li>An <strong>AI Observation</strong> at the top notes patterns — for example if you are heavily concentrated with one vendor or if a vendor's cost has risen significantly.</li>
+        </ul>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">Download the AI Report (Excel)</h3>
+        <p>
+          Click the <strong>AI Report</strong> button at the top right of the
+          Insights page. You get a 3-tab Excel file:
+        </p>
+        <div class="tips">
+          <div class="tip">
+            <strong>Sheet 1 — Summary</strong>
+            <span>Budget pace, top categories, and key monthly metrics at a glance.</span>
+          </div>
+          <div class="tip">
+            <strong>Sheet 2 — Receipts</strong>
+            <span>A clean table of every receipt — great to share with an accountant or for tax records.</span>
+          </div>
+          <div class="tip">
+            <strong>Sheet 3 — AI Insights</strong>
+            <span>The AI narrative, anomaly list, and vendor notes exported as readable text.</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 6 ════════════════════════════ -->
+      <section>
+        <h2>6. Forecast — See the Future Before It Happens</h2>
+
+        <div class="step-intro">
+          Most people only realise they overspent when the month is already over.
+          The Forecast screen shows you where you are heading right now — while
+          you still have time to change it.
+        </div>
+
+        <p>Click <strong>Forecast</strong> in the sidebar to open this screen.</p>
+        <ul>
+          <li>
+            <strong>Projected Total</strong> — based on how much you have spent
+            so far this month, the AI calculates what your full-month total will
+            be if you carry on at the same pace.
+          </li>
+          <li>
+            <strong>Over or under budget?</strong> — a coloured indicator
+            immediately tells you whether the projection is within your combined
+            budget (green), approaching the limit (amber), or heading over (red).
+          </li>
+          <li>
+            <strong>Daily bar chart</strong> — the left half of the chart shows
+            what you actually spent each day. The right half (lighter bars) shows
+            what the AI predicts for the remaining days. Hover any bar to see
+            the exact amount.
+          </li>
+          <li>
+            <strong>AI Narrative</strong> — a sentence or two explaining the
+            forecast. For example: &ldquo;Your Dining spend is the main driver.
+            Reducing it by $30 this week would bring you under budget.&rdquo;
+          </li>
+        </ul>
+
+        <div class="callout">
+          <strong>New to the app?</strong> The forecast is most reliable from
+          day 7 onwards. In the first few days of the month it has little data
+          so the projection will be rough — that is completely normal.
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 7 ════════════════════════════ -->
+      <section>
+        <h2>7. Notification Bell — Alerts Without Checking Every Screen</h2>
+
+        <div class="step-intro">
+          The bell icon in the top-right corner of every page is your passive
+          safety net. It watches your spending for you in the background and
+          only interrupts you when something genuinely needs attention.
+        </div>
+
+        <p>
+          When the bell has a red number badge, it means there are unread alerts.
+          Click it to open the panel.
+        </p>
+
+        <h3 style="margin:16px 0 8px;font-size:17px;color:var(--ink)">What will trigger an alert?</h3>
+        <div class="tips">
+          <div class="tip">
+            <strong>💰 Budget warning</strong>
+            <span>A category has crossed 80 % or 100 % of its monthly limit — time to slow down spending there.</span>
+          </div>
+          <div class="tip">
+            <strong>⚠️ Spending spike</strong>
+            <span>A category jumped significantly above your usual level this month — worth checking if it's expected.</span>
+          </div>
+          <div class="tip">
+            <strong>🔄 Subscription due soon</strong>
+            <span>A recurring charge (like Netflix or a gym membership) is expected to hit within the next 3 days.</span>
+          </div>
+        </div>
+
+        <ol style="margin-top:16px">
+          <li>Click the bell to open the notification panel.</li>
+          <li>Read each alert — the icon type tells you whether it is a budget, anomaly, or subscription alert.</li>
+          <li>Click <strong>Mark all read</strong> to clear the badge once you have reviewed them.</li>
         </ol>
       </section>
+
+      <!-- ═══════════════════════════ SECTION 8 ════════════════════════════ -->
+      <section>
+        <h2>8. Budgets — Track and Adjust Your Limits</h2>
+
+        <div class="step-intro">
+          You set your first budgets during setup. This section explains what the
+          full Budgets screen shows you day-to-day and how to adjust things if
+          your limits feel wrong.
+        </div>
+
+        <p>Click <strong>Budgets</strong> in the sidebar.</p>
+        <ul>
+          <li>
+            <strong>Budget cards</strong> — each category budget gets its own
+            card. It shows the monthly limit you set, how much you have spent
+            so far this month, how much is remaining, and a progress bar. When
+            the bar turns red you are close to the limit.
+          </li>
+          <li>
+            <strong>Budget Advisor</strong> — below the cards, the AI writes one
+            sentence for each budget. Examples: &ldquo;Groceries on pace — no
+            action needed,&rdquo; or &ldquo;Housing is 90 % used with 12 days
+            remaining — risk of overspend.&rdquo;
+          </li>
+          <li>
+            <strong>Edit a budget</strong> — click the pencil icon on any card
+            to change the monthly limit. Click <strong>Save</strong> and the
+            AI updates immediately.
+          </li>
+          <li>
+            <strong>Delete a budget</strong> — click the bin icon. This removes
+            the limit and the alerts for that category only. Your receipts in
+            that category are not deleted.
+          </li>
+        </ul>
+
+        <div class="callout">
+          <strong>Budget card shows $0 spent?</strong> This usually means the
+          receipts in that category are labelled with a slightly different name.
+          Go to Receipts, filter by that category, and check — if you see the
+          right receipts there, everything is working correctly.
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 9 ════════════════════════════ -->
+      <section>
+        <h2>9. Categories &amp; Vendor Rules — Fine-Tuning Over Time</h2>
+
+        <div class="step-intro">
+          After a few weeks of using the app you will notice patterns — maybe
+          you want to split &ldquo;Dining&rdquo; into &ldquo;Lunch&rdquo; and
+          &ldquo;Dinner,&rdquo; or you notice a vendor is always miscategorised.
+          This screen is where you fix all of that.
+        </div>
+
+        <p>Click <strong>Categories</strong> in the sidebar.</p>
+        <ul>
+          <li>
+            <strong>Rename a category</strong> — click the pencil icon next to
+            any category name and type the new name. All receipts assigned to
+            it automatically update to the new name.
+          </li>
+          <li>
+            <strong>Delete a category</strong> — the app warns you if receipts
+            are still using it. Reassign those receipts first, then delete.
+          </li>
+          <li>
+            <strong>Add a new vendor rule</strong> — expand any category row,
+            open <strong>Vendor Rules</strong>, and click <strong>+ Add Rule</strong>.
+            Type the vendor's name (or a keyword from it). From now on that
+            vendor's receipts are tagged automatically.
+          </li>
+          <li>
+            <strong>Delete a vendor rule</strong> — click the bin icon next to
+            any rule. Future receipts from that vendor will no longer be
+            auto-tagged, but existing receipts are not changed.
+          </li>
+        </ul>
+
+        <div class="callout">
+          <strong>Pro tip:</strong> Each time you manually correct a receipt's
+          category, add a vendor rule for that vendor right after. You will
+          never have to correct that vendor again.
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 10 ═══════════════════════════ -->
+      <section>
+        <h2>10. Profile — Your Personal Settings</h2>
+
+        <div class="step-intro">
+          This is where you manage your own account — your name, photo, and
+          password. Changes here appear across the whole app instantly.
+        </div>
+
+        <p>Click your name or avatar in the sidebar to open Profile, or use the Profile menu item.</p>
+        <ol>
+          <li>
+            <strong>Update your name or bio</strong> — click <strong>Edit Profile</strong>,
+            type your name and an optional short bio, then click <strong>Save</strong>.
+          </li>
+          <li>
+            <strong>Upload a profile photo (avatar)</strong> — click the circle
+            with your initials (top of the profile page). Choose a JPG or PNG
+            from your device (max 5 MB). It uploads instantly and appears in
+            the sidebar navigation too.
+          </li>
+          <li>
+            <strong>Change your password</strong> — scroll to the
+            <strong>Security</strong> section. Enter your current password and
+            type the new one twice for confirmation. Click
+            <strong>Update Password</strong>.
+            ✅ You will stay logged in — no need to log out.
+          </li>
+        </ol>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 11 ═══════════════════════════ -->
+      <section>
+        <h2>11. Admin Panel <span style="font-size:13px;font-weight:500;color:var(--muted)">(only visible to Admin accounts)</span></h2>
+
+        <div class="step-intro">
+          Most users will never see this screen. It only appears in the sidebar
+          if your account has been given the Admin role by another administrator.
+          It is for managing the whole workspace — not individual expense tracking.
+        </div>
+
+        <ul>
+          <li>
+            <strong>User list</strong> — see every registered account, their
+            email, and how many receipts they have uploaded.
+          </li>
+          <li>
+            <strong>Assign or remove the Admin role</strong> — toggle the Admin
+            switch on any user. Admins can see workspace statistics, so only
+            grant this to people who need it.
+          </li>
+          <li>
+            <strong>Workspace stats</strong> — three summary cards at the top
+            showing total registered users, total receipts across all accounts,
+            and total spend tracked in the system.
+          </li>
+        </ul>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 12 ═══════════════════════════ -->
+      <section>
+        <h2>12. Your Recommended Weekly Routine</h2>
+
+        <div class="step-intro">
+          Once setup is done, it only takes about 5 minutes a week to keep
+          everything accurate and get the most value from the AI. Here is the
+          routine that works best.
+        </div>
+
+        <ol>
+          <li>
+            <strong>Upload this week's receipts</strong> — use the photo upload
+            for paper receipts and Quick Add for anything you paid in cash or
+            forgot to keep. The more complete your data, the better the AI's
+            advice.
+          </li>
+          <li>
+            <strong>Fix any wrong categories</strong> — go to Receipts, look
+            for rows with a missing or incorrect category, and correct them.
+            Then add a vendor rule so it doesn't happen again.
+          </li>
+          <li>
+            <strong>Check the notification bell</strong> — read any alerts and
+            mark them as read. If a budget alert fired, decide if you need to
+            slow spending or adjust the limit.
+          </li>
+          <li>
+            <strong>Open the Dashboard and hit Sync AI</strong> — read the
+            latest guidance cards. They update every time you sync.
+          </li>
+          <li>
+            <strong>Glance at Forecast</strong> — a 10-second check to confirm
+            you are still on track to finish the month within budget.
+          </li>
+          <li>
+            <strong>Ask the Copilot one question</strong> — finish with something
+            like <em>&ldquo;What should I cut this week?&rdquo;</em> or
+            <em>&ldquo;Am I on track for the month?&rdquo;</em>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ═══════════════════════════ SECTION 13 ═══════════════════════════ -->
+      <section>
+        <h2>13. Common Questions &amp; Quick Fixes</h2>
+        <div class="tips">
+          <div class="tip">
+            <strong>Receipt photo didn't parse correctly</strong>
+            <span>Use a clear, well-lit photo with the text facing the camera. PDF receipts (from online orders) work even better than photos.</span>
+          </div>
+          <div class="tip">
+            <strong>AI put the wrong category on a receipt</strong>
+            <span>Edit the receipt to fix it, then immediately add a vendor rule for that merchant — it will never be wrong again.</span>
+          </div>
+          <div class="tip">
+            <strong>Got a duplicate warning but the purchase is real</strong>
+            <span>The app found a very similar receipt from the past 7 days. Click "Dismiss warning" and save — the receipt will be saved normally.</span>
+          </div>
+          <div class="tip">
+            <strong>Budget card shows £0 / $0 spent</strong>
+            <span>Receipts may be in a differently-named category. Go to Receipts, filter by that category name, and check if any show up.</span>
+          </div>
+          <div class="tip">
+            <strong>Forecast seems way off</strong>
+            <span>It needs at least 5–7 days of data to be reliable. In the first few days of a new month it will extrapolate from very little — check back mid-month.</span>
+          </div>
+          <div class="tip">
+            <strong>Need a report for your accountant or tax return</strong>
+            <span>Go to Insights → click "AI Report". The Excel download includes a full receipt list with dates, vendors, categories, and amounts.</span>
+          </div>
+        </div>
+      </section>
+
     </main>
   </body>
   </html>

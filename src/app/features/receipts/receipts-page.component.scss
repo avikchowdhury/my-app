@@ -111,17 +111,28 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    mat-icon { color: #5c6bc0; }
-    strong { flex: 1; font-size: 0.95rem; }
+    mat-icon {
+      color: #5c6bc0;
+    }
+    strong {
+      flex: 1;
+      font-size: 0.95rem;
+    }
   }
 
-  .nl-hint { margin: 0; color: #888; font-size: 0.82rem; }
+  .nl-hint {
+    margin: 0;
+    color: #888;
+    font-size: 0.82rem;
+  }
 
   .nl-input-row {
     display: flex;
     gap: 10px;
     align-items: center;
-    .nl-field { flex: 1; }
+    .nl-field {
+      flex: 1;
+    }
   }
 
   .nl-result {
@@ -135,8 +146,12 @@
       display: flex;
       justify-content: space-between;
       font-size: 0.88rem;
-      span { color: #888; }
-      strong { color: #1a1a1a; }
+      span {
+        color: #888;
+      }
+      strong {
+        color: #1a1a1a;
+      }
     }
 
     .nl-warn {
@@ -146,7 +161,16 @@
       color: #f59300;
       font-size: 0.8rem;
       margin: 4px 0 0;
-      mat-icon { font-size: 16px; }
+      mat-icon {
+        font-size: 16px;
+      }
+    }
+
+    .nl-result-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      align-items: center;
     }
   }
 }
@@ -160,12 +184,23 @@
   border: 1px solid #ffb300;
   border-radius: 12px;
 
-  mat-icon { color: #f57c00; margin-top: 2px; flex-shrink: 0; }
+  mat-icon {
+    color: #f57c00;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
 
   div {
     flex: 1;
-    strong { font-size: 0.88rem; color: #e65100; }
-    p { margin: 2px 0 0; font-size: 0.82rem; color: #bf360c; }
+    strong {
+      font-size: 0.88rem;
+      color: #e65100;
+    }
+    p {
+      margin: 2px 0 0;
+      font-size: 0.82rem;
+      color: #bf360c;
+    }
   }
 }
 
