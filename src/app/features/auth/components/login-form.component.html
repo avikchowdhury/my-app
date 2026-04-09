@@ -7,26 +7,43 @@
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
     <input matInput type="email" formControlName="email" />
-    <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required.</mat-error>
-    <mat-error *ngIf="form.get('email')?.hasError('email')">Enter a valid email.</mat-error>
+    <mat-error *ngIf="form.get('email')?.hasError('required')"
+      >Email is required.</mat-error
+    >
+    <mat-error *ngIf="form.get('email')?.hasError('email')"
+      >Enter a valid email.</mat-error
+    >
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>Password</mat-label>
-    <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" />
-    <button mat-icon-button matSuffix type="button" (click)="showPassword = !showPassword">
-      <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+    <input
+      matInput
+      [type]="showPassword ? 'text' : 'password'"
+      formControlName="password"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      type="button"
+      (click)="showPassword = !showPassword"
+    >
+      <mat-icon>{{ showPassword ? "visibility_off" : "visibility" }}</mat-icon>
     </button>
-    <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required.</mat-error>
+    <mat-error *ngIf="form.get('password')?.hasError('required')"
+      >Password is required.</mat-error
+    >
   </mat-form-field>
 
   <div class="forgot-link-row">
-    <a routerLink="/auth/forgot-password" class="forgot-link">Forgot password?</a>
+    <a routerLink="/auth/forgot-password" class="forgot-link"
+      >Forgot password?</a
+    >
   </div>
 
   <div class="status error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-    {{ loading ? 'Signing in...' : 'Login to dashboard' }}
+    {{ loading ? "Signing in..." : "Login to dashboard" }}
   </button>
 </form>

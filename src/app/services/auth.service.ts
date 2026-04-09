@@ -1,7 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthResponse, ForgotPasswordResponse, OtpSendResponse, ResetPasswordResponse } from '../models';
+import {
+  AuthResponse,
+  ForgotPasswordResponse,
+  OtpSendResponse,
+  ResetPasswordResponse,
+} from '../models';
 
 const API_BASE = '/api';
 
@@ -79,11 +84,21 @@ export class AuthService {
   }
 
   forgotPassword(email: string): Observable<ForgotPasswordResponse> {
-    return this.http.post<ForgotPasswordResponse>(`${API_BASE}/auth/forgot-password`, { email });
+    return this.http.post<ForgotPasswordResponse>(
+      `${API_BASE}/auth/forgot-password`,
+      { email },
+    );
   }
 
-  resetPassword(email: string, token: string, newPassword: string): Observable<ResetPasswordResponse> {
-    return this.http.post<ResetPasswordResponse>(`${API_BASE}/auth/reset-password`, { email, token, newPassword });
+  resetPassword(
+    email: string,
+    token: string,
+    newPassword: string,
+  ): Observable<ResetPasswordResponse> {
+    return this.http.post<ResetPasswordResponse>(
+      `${API_BASE}/auth/reset-password`,
+      { email, token, newPassword },
+    );
   }
 
   sendOtp(email: string): Observable<OtpSendResponse> {
@@ -133,7 +148,10 @@ export class AuthService {
 
     try {
       const base64 = segments[1].replace(/-/g, '+').replace(/_/g, '/');
-      const normalized = base64.padEnd(base64.length + ((4 - (base64.length % 4)) % 4), '=');
+      const normalized = base64.padEnd(
+        base64.length + ((4 - (base64.length % 4)) % 4),
+        '=',
+      );
       return JSON.parse(window.atob(normalized)) as Record<string, unknown>;
     } catch {
       return null;

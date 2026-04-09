@@ -1,9 +1,18 @@
 import { Component } from '@angular/core';
-import { AbstractControl, FormBuilder, FormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 
-const passwordsMatch: ValidatorFn = (group: AbstractControl): ValidationErrors | null => {
+const passwordsMatch: ValidatorFn = (
+  group: AbstractControl,
+): ValidationErrors | null => {
   const pw = group.get('newPassword')?.value;
   const confirm = group.get('confirmPassword')?.value;
   return pw && confirm && pw !== confirm ? { mismatch: true } : null;
@@ -12,7 +21,7 @@ const passwordsMatch: ValidatorFn = (group: AbstractControl): ValidationErrors |
 @Component({
   selector: 'app-forgot-password-form',
   templateUrl: './forgot-password-form.component.html',
-  styleUrls: ['./forgot-password-form.component.scss']
+  styleUrls: ['./forgot-password-form.component.scss'],
 })
 export class ForgotPasswordFormComponent {
   step: 1 | 2 = 1;
@@ -29,19 +38,19 @@ export class ForgotPasswordFormComponent {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
   ) {
     this.emailForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
     });
 
     this.resetForm = this.fb.group(
       {
         token: ['', [Validators.required, Validators.pattern(/^\d{6}$/)]],
         newPassword: ['', [Validators.required, Validators.minLength(6)]],
-        confirmPassword: ['', Validators.required]
+        confirmPassword: ['', Validators.required],
       },
-      { validators: passwordsMatch }
+      { validators: passwordsMatch },
     );
   }
 
@@ -61,9 +70,10 @@ export class ForgotPasswordFormComponent {
         this.loading = false;
       },
       error: (err) => {
-        this.errorMessage = err.error?.message || 'Something went wrong. Try again.';
+        this.errorMessage =
+          err.error?.message || 'Something went wrong. Try again.';
         this.loading = false;
-      }
+      },
     });
   }
 
@@ -77,17 +87,21 @@ export class ForgotPasswordFormComponent {
     this.errorMessage = '';
 
     const { token, newPassword } = this.resetForm.value;
-    this.authService.resetPassword(this.emailForm.value.email, token, newPassword).subscribe({
-      next: () => {
-        this.successMessage = 'Password updated! Redirecting to login…';
-        this.loading = false;
-        setTimeout(() => this.router.navigate(['/auth/login']), 2000);
-      },
-      error: (err) => {
-        this.errorMessage = err.error?.message || 'Reset failed. Check your code and try again.';
-        this.loading = false;
-      }
-    });
+    this.authService
+      .resetPassword(this.emailForm.value.email, token, newPassword)
+      .subscribe({
+        next: () => {
+          this.successMessage = 'Password updated! Redirecting to login…';
+          this.loading = false;
+          setTimeout(() => this.router.navigate(['/auth/login']), 2000);
+        },
+        error: (err) => {
+          this.errorMessage =
+            err.error?.message ||
+            'Reset failed. Check your code and try again.';
+          this.loading = false;
+        },
+      });
   }
 
   goBack(): void {
