@@ -14,5 +14,11 @@ export class AuthPageComponent {
     startWith((this.router.url.includes('/register') ? 'register' : 'login') as 'login' | 'register')
   );
 
+  readonly showTabs$ = this.router.events.pipe(
+    filter((event): event is NavigationEnd => event instanceof NavigationEnd),
+    map(() => !this.router.url.includes('/forgot-password')),
+    startWith(!this.router.url.includes('/forgot-password'))
+  );
+
   constructor(private router: Router) {}
 }

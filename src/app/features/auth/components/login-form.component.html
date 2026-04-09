@@ -20,6 +20,10 @@
     <mat-error *ngIf="form.get('password')?.hasError('required')">Password is required.</mat-error>
   </mat-form-field>
 
+  <div class="forgot-link-row">
+    <a routerLink="/auth/forgot-password" class="forgot-link">Forgot password?</a>
+  </div>
+
   <div class="status error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="loading">

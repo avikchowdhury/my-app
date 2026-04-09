@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AuthResponse, OtpSendResponse } from '../models';
+import { AuthResponse, ForgotPasswordResponse, OtpSendResponse, ResetPasswordResponse } from '../models';
 
 const API_BASE = '/api';
 
@@ -76,6 +76,14 @@ export class AuthService {
 
   isAdmin(): boolean {
     return this.getUserRole()?.toLowerCase() === 'admin';
+  }
+
+  forgotPassword(email: string): Observable<ForgotPasswordResponse> {
+    return this.http.post<ForgotPasswordResponse>(`${API_BASE}/auth/forgot-password`, { email });
+  }
+
+  resetPassword(email: string, token: string, newPassword: string): Observable<ResetPasswordResponse> {
+    return this.http.post<ResetPasswordResponse>(`${API_BASE}/auth/reset-password`, { email, token, newPassword });
   }
 
   sendOtp(email: string): Observable<OtpSendResponse> {

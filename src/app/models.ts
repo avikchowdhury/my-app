@@ -4,6 +4,15 @@ export interface AuthResponse {
   expiresAt: string;
 }
 
+export interface ForgotPasswordResponse {
+  message: string;
+  developmentToken?: string;
+}
+
+export interface ResetPasswordResponse {
+  message: string;
+}
+
 export type AppUserRole = 'Admin' | 'User';
 
 export interface PaginatedResponse<T> {
