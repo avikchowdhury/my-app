@@ -119,7 +119,7 @@ export class ProfilePageComponent implements OnInit {
 
   get avatarInitials(): string {
     const email = this.profile?.email?.trim() || '';
-    return email ? email.slice(0, 2).toUpperCase() : 'AI';
+    return email ? email.slice(0, 2).toUpperCase() : 'ET';
   }
 
   get selectedPhoneCountry(): PhoneCountryOption {
@@ -344,6 +344,6 @@ export class ProfilePageComponent implements OnInit {
 
   get currentLanguageCurrencyLabel(): string {
     const preference = this.localePreference.currentPreference;
-    return `${preference.languageLabel} - ${preference.currencySymbol}`;
+    return `${preference.languageLabel} | ${preference.currencyCode}`;
   }
 }

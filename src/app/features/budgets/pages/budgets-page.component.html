@@ -117,7 +117,7 @@
 
       <div class="coach-reply" *ngIf="!coachThinking && coachResponse">
         <mat-icon>smart_toy</mat-icon>
-        <p>{{ coachResponse }}</p>
+        <div class="rich-text" [innerHTML]="coachResponse | appRichText"></div>
       </div>
     </div>
   </mat-card>

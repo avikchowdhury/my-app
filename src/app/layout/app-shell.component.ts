@@ -63,7 +63,7 @@ export class AppShellComponent implements OnInit, OnDestroy {
       icon: 'category',
     },
     {
-      label: 'AI Insights',
+      label: 'Insights',
       labelKey: 'nav.insights',
       path: '/insights',
       icon: 'auto_awesome',
@@ -208,7 +208,7 @@ export class AppShellComponent implements OnInit, OnDestroy {
 
   get avatarInitials(): string {
     const email = this.profile?.email?.trim() || '';
-    return email ? email.slice(0, 2).toUpperCase() : 'AI';
+    return email ? email.slice(0, 2).toUpperCase() : 'ET';
   }
 
   get visibleNavigation(): NavigationItem[] {

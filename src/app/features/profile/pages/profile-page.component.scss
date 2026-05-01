@@ -281,6 +281,21 @@
   gap: 0.55rem;
 }
 
+.country-trigger-copy {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.country-trigger-copy strong {
+  color: #13293d;
+  font-size: 0.9rem;
+}
+
+.country-trigger-copy small {
+  color: #61798a;
+  font-size: 0.76rem;
+}
+
 .country-option {
   width: 100%;
 }
@@ -288,6 +303,16 @@
 .country-flag {
   font-size: 1.1rem;
   line-height: 1;
+}
+
+.flag-tile {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #ffffff 0%, #edf5f7 100%);
+  border: 1px solid rgba(19, 41, 61, 0.08);
 }
 
 .country-name {

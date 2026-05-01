@@ -50,7 +50,10 @@ export class AiAssistantService {
   }
 
   sendMessage(payload: AiChatRequest): Observable<AiChatResponse> {
-    return this.http.post<AiChatResponse>(`${API_BASE}/ai/chat`, payload);
+    return this.http.post<AiChatResponse>(`${API_BASE}/ai/chat`, {
+      ...payload,
+      message: this.buildFlexibleChatMessage(payload.message),
+    });
   }
 
   getSpendingAnomalies(forceRefresh = false): Observable<SpendingAnomaly[]> {
@@ -207,6 +210,16 @@ export class AiAssistantService {
 
   private clearCache(...keys: string[]): void {
     keys.forEach((key) => this.requestCache.delete(key));
+  }
+
+  private buildFlexibleChatMessage(message: string): string {
+    const trimmedMessage = message.trim();
+    const preference = this.localePreference.currentPreference;
+
+    return [
+      `User request: ${trimmedMessage}`,
+      `Assistant guidance: Answer using the user's real expense tracker data whenever possible. If the request is open-ended, comparative, hypothetical, or slightly outside the recorded facts, still help by stating assumptions, grounding the answer in known budgets, receipts, categories, and alerts, and suggesting the best tracker-based next step. Use ${preference.currencyCode} and ${preference.languageLabel} conventions when mentioning money.`,
+    ].join('\n\n');
   }
 }
 

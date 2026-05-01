@@ -2,6 +2,19 @@
   margin-bottom: 1rem;
 }
 
+.section-tag {
+  display: inline-flex;
+  margin-bottom: 0.5rem;
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(15, 108, 91, 0.09);
+  color: #0f6c5b;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
 .form-copy h2 {
   margin: 0 0 0.25rem;
   font-size: 1.8rem;
@@ -10,6 +23,27 @@
 .form-copy p {
   margin: 0;
   color: #5c7383;
+  line-height: 1.55;
+}
+
+.form-highlights {
+  display: grid;
+  gap: 0.7rem;
+  margin-bottom: 1rem;
+}
+
+.highlight-item {
+  display: flex;
+  gap: 0.7rem;
+  align-items: center;
+  padding: 0.85rem 0.95rem;
+  border-radius: 16px;
+  background: rgba(247, 251, 253, 0.92);
+  border: 1px solid rgba(19, 41, 61, 0.08);
+}
+
+.highlight-item mat-icon {
+  color: #0f6c5b;
 }
 
 .auth-form {
@@ -46,4 +80,20 @@
 
 .forgot-link:hover {
   text-decoration: underline;
+}
+
+.support-note {
+  display: flex;
+  gap: 0.65rem;
+  align-items: center;
+  margin-top: 1rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: 16px;
+  background: rgba(19, 41, 61, 0.05);
+  color: #365064;
+  font-size: 0.9rem;
+}
+
+.support-note mat-icon {
+  color: #0f6c5b;
 }

@@ -1,19 +1,45 @@
 <div class="form-copy">
-  <h2>Create account</h2>
-  <p>Start with secure OTP onboarding, then let AI organize and coach your expense tracking.</p>
+  <span class="section-tag">New account</span>
+  <h2>Create your workspace account</h2>
+  <p>Set up a secure login, verify your email, and start tracking expenses with a sharper workflow.</p>
+</div>
+
+<div class="setup-steps">
+  <div class="setup-step">
+    <strong>1</strong>
+    <span>Add your email and a password.</span>
+  </div>
+  <div class="setup-step">
+    <strong>2</strong>
+    <span>Send the OTP and confirm your address.</span>
+  </div>
+  <div class="setup-step">
+    <strong>3</strong>
+    <span>Enter your dashboard with your workspace ready.</span>
+  </div>
 </div>
 
 <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
   <mat-form-field appearance="outline">
     <mat-label>Email address</mat-label>
-    <input matInput type="email" formControlName="email" />
+    <input
+      matInput
+      type="email"
+      formControlName="email"
+      autocomplete="email"
+    />
     <mat-error *ngIf="form.get('email')?.hasError('required')">Email is required.</mat-error>
     <mat-error *ngIf="form.get('email')?.hasError('email')">Use a valid email address.</mat-error>
   </mat-form-field>
 
   <mat-form-field appearance="outline">
     <mat-label>Password</mat-label>
-    <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" />
+    <input
+      matInput
+      [type]="showPassword ? 'text' : 'password'"
+      formControlName="password"
+      autocomplete="new-password"
+    />
     <button mat-icon-button matSuffix type="button" (click)="showPassword = !showPassword">
       <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
     </button>
@@ -24,7 +50,13 @@
   <div class="otp-row">
     <mat-form-field appearance="outline">
       <mat-label>OTP</mat-label>
-      <input matInput type="text" formControlName="otp" />
+      <input
+        matInput
+        type="text"
+        formControlName="otp"
+        autocomplete="one-time-code"
+      />
+      <mat-hint>Use the verification code sent to your email.</mat-hint>
       <mat-error *ngIf="form.get('otp')?.hasError('required')">OTP is required.</mat-error>
     </mat-form-field>
 
@@ -37,6 +69,11 @@
   <div class="status error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="registering">
-    {{ registering ? 'Creating account...' : 'Register and continue' }}
+    {{ registering ? 'Creating account...' : 'Create workspace account' }}
   </button>
 </form>
+
+<div class="support-note">
+  <mat-icon>verified</mat-icon>
+  <span>Original product by Avik Chowdhury.</span>
+</div>

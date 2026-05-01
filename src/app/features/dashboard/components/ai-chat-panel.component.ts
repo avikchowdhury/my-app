@@ -22,9 +22,9 @@ const MAX_PROMPT_LENGTH = 500;
 export class AiChatPanelComponent implements AfterViewChecked, OnInit {
   private readonly defaultPrompts = [
     'How much budget risk do I have right now?',
-    'Which subscriptions should I review first?',
-    'How can I reduce my budget risk?',
-    'Summarize my latest receipt activity.',
+    'If I keep spending like this, where will month-end land?',
+    'Which habits are quietly hurting my budget?',
+    'Could I still afford one extra weekend outing this month?',
   ];
 
   readonly maxLength = MAX_PROMPT_LENGTH;
@@ -39,7 +39,7 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
     {
       role: 'assistant',
       content:
-        'Ask about budgets, subscriptions, receipt activity, or where your spend is drifting. I answer from your tracker data, not guesses.',
+        'Ask about habits, tradeoffs, subscriptions, month-end risk, vendor patterns, or broad what-if scenarios. I will anchor the answer to your tracker data whenever possible.',
     },
   ];
 
@@ -74,9 +74,9 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
         if (this.anomalies.length > 0) {
           this.starterPrompts = [
             `Why is my ${this.anomalies[0].category} spending so high?`,
-            'What anomalies do you see in my spending?',
+            'What patterns are pushing my month off track?',
             'Which subscriptions should I review first?',
-            'How can I reduce my budget risk?',
+            'What is the simplest way to lower this month-end risk?',
           ];
         }
         this.summaryLoading = false;
@@ -92,7 +92,7 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
       {
         role: 'assistant',
         content:
-          'Chat cleared. What would you like to know about your spending?',
+          'Chat cleared. Ask anything from a quick budget check to a broad spending what-if.',
       },
     ];
     this.shouldScrollToBottom = true;
@@ -145,7 +145,7 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
           {
             role: 'assistant',
             content:
-              'I could not reach the AI assistant just now. Try again after the API is available.',
+              'I could not reach the spending assistant just now. Try again after the API is available.',
           },
         ];
         this.shouldScrollToBottom = true;

@@ -1,27 +1,59 @@
 <section class="auth-hero">
-  <p class="eyebrow">Finance Copilot</p>
-  <h1>{{ mode === 'register' ? 'Create your AI expense workspace' : 'Welcome back to your smart finance hub' }}</h1>
+  <div class="hero-topline">
+    <p class="eyebrow">Expense Tracker Workspace</p>
+    <span class="creator-chip">Built by Avik Chowdhury</span>
+  </div>
+
+  <h1>{{
+    mode === 'register'
+      ? 'Build a cleaner money routine from your very first receipt'
+      : 'Return to a calmer view of your everyday spending'
+  }}</h1>
+
   <p class="lead">
-    Upload receipts, get automatic spending patterns, and ask your tracker for budget guidance in plain language.
+    One focused place for receipts, budgets, monthly trends, and practical guidance in plain language.
   </p>
+
+  <div class="hero-story">
+    <strong>Made for real daily decisions</strong>
+    <p>
+      Track groceries, rent, travel, subscriptions, and family spending without
+      turning your dashboard into noise.
+    </p>
+  </div>
 
   <div class="hero-cards">
     <article class="hero-card">
-      <span class="label">AI scan</span>
-      <strong>Receipt parsing and category suggestions</strong>
-      <p>Turn files into tracked expenses faster with a guided upload flow.</p>
+      <span class="label">Receipt capture</span>
+      <strong>Turn uploads into usable expense records quickly</strong>
+      <p>Keep vendor, amount, category, and date details moving in one guided flow.</p>
     </article>
 
     <article class="hero-card">
-      <span class="label">Coach mode</span>
-      <strong>Insight cards with practical next actions</strong>
-      <p>See overspend risk, unusual vendors, and what deserves attention next.</p>
+      <span class="label">Planning</span>
+      <strong>See where your month is steady and where it needs attention</strong>
+      <p>Review budget pressure, unusual spend patterns, and next best actions.</p>
     </article>
 
     <article class="hero-card">
-      <span class="label">Secure access</span>
-      <strong>OTP-based onboarding for new users</strong>
-      <p>Keep your login flow clean while still making registration simple.</p>
+      <span class="label">Ownership</span>
+      <strong>Clear authorship and a product identity that feels intentional</strong>
+      <p>Visible creator credit helps preserve the original build and presentation.</p>
     </article>
+  </div>
+
+  <div class="hero-stat-row">
+    <div class="hero-stat">
+      <span>Supports</span>
+      <strong>INR and USD</strong>
+    </div>
+    <div class="hero-stat">
+      <span>Best for</span>
+      <strong>Daily budget discipline</strong>
+    </div>
+    <div class="hero-stat">
+      <span>Access</span>
+      <strong>{{ mode === 'register' ? 'Email + OTP setup' : 'Fast secure sign-in' }}</strong>
+    </div>
   </div>
 </section>

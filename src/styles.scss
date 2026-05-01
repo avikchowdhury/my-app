@@ -31,3 +31,12 @@ body {
 .mat-card {
   background: rgba(255, 255, 255, 0.94);
 }
+
+.rich-text {
+  color: inherit;
+  line-height: inherit;
+}
+
+.rich-text strong {
+  font-weight: 700;
+}

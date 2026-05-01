@@ -2,26 +2,78 @@
   <header class="page-header">
     <div>
       <p class="eyebrow">Admin Workspace</p>
-      <h2>Control access, roles, and system health</h2>
+      <h2>Control access, roles, and workspace health</h2>
       <p class="lead">
-        Manage who can access the AI expense tracker and keep an eye on the
-        overall workspace footprint.
+        Manage who can access the expense tracker, spot adoption gaps, and keep
+        the workspace running cleanly.
       </p>
     </div>
 
-    <button
-      mat-stroked-button
-      color="primary"
-      type="button"
-      (click)="loadAdminWorkspace()"
-      [disabled]="loading"
-    >
-      <mat-icon>refresh</mat-icon>
-      {{ loading ? 'Refreshing...' : 'Refresh data' }}
-    </button>
+    <div class="header-actions">
+      <button
+        mat-stroked-button
+        type="button"
+        (click)="exportUsersCsv()"
+        [disabled]="!filteredUsers.length"
+      >
+        <mat-icon>download</mat-icon>
+        Export current view
+      </button>
+
+      <button
+        mat-stroked-button
+        color="primary"
+        type="button"
+        (click)="loadAdminWorkspace()"
+        [disabled]="loading"
+      >
+        <mat-icon>refresh</mat-icon>
+        {{ loading ? 'Refreshing...' : 'Refresh data' }}
+      </button>
+    </div>
   </header>
 
   <app-admin-overview-grid [overview]="overview"></app-admin-overview-grid>
+
+  <mat-card class="admin-panel operations-panel">
+    <div class="panel-head">
+      <div>
+        <p class="panel-label">Operations Snapshot</p>
+        <h3>Where admin attention will matter most</h3>
+      </div>
+      <span class="panel-count">{{ users.length }} monitored</span>
+    </div>
+
+    <div class="operations-grid">
+      <article
+        class="signal-card"
+        *ngFor="let signal of workspaceSignals"
+        [class.warning-card]="signal.tone === 'warning'"
+        [class.positive-card]="signal.tone === 'positive'"
+      >
+        <div class="signal-icon">
+          <mat-icon>{{ signal.icon }}</mat-icon>
+        </div>
+        <div class="signal-copy">
+          <span>{{ signal.label }}</span>
+          <strong>{{ signal.value }}</strong>
+          <p>{{ signal.detail }}</p>
+        </div>
+      </article>
+    </div>
+
+    <div class="recommendation-list">
+      <article
+        class="recommendation-card"
+        *ngFor="let recommendation of adminRecommendations"
+        [class.warning-card]="recommendation.tone === 'warning'"
+        [class.positive-card]="recommendation.tone === 'positive'"
+      >
+        <strong>{{ recommendation.title }}</strong>
+        <p>{{ recommendation.detail }}</p>
+      </article>
+    </div>
+  </mat-card>
 
   <mat-card class="admin-panel tracking-panel">
     <div class="panel-head">
@@ -110,8 +162,8 @@
         <div class="watch-main">
           <strong>{{ item.user.email }}</strong>
           <small>
-            {{ item.user.receiptCount }} receipts ·
-            {{ item.user.budgetCount }} budgets ·
+            {{ item.user.receiptCount }} receipts |
+            {{ item.user.budgetCount }} budgets |
             {{ item.user.categoryCount }} categories
           </small>
         </div>

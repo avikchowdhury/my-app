@@ -20,6 +20,20 @@ interface AdminWatchlistItem {
   reasons: string[];
 }
 
+interface AdminWorkspaceSignal {
+  label: string;
+  value: string;
+  detail: string;
+  icon: string;
+  tone: 'default' | 'positive' | 'warning';
+}
+
+interface AdminRecommendation {
+  title: string;
+  detail: string;
+  tone: 'default' | 'positive' | 'warning';
+}
+
 @Component({
   selector: 'app-admin-page',
   templateUrl: './admin-page.component.html',
@@ -89,6 +103,51 @@ export class AdminPageComponent implements OnInit {
 
   setActivityFilter(filter: AdminUserFilter): void {
     this.activityFilter = filter;
+  }
+
+  exportUsersCsv(): void {
+    if (!this.filteredUsers.length) {
+      return;
+    }
+
+    const rows = [
+      [
+        'User ID',
+        'Email',
+        'Role',
+        'Receipts',
+        'Budgets',
+        'Categories',
+        'Last Receipt',
+        'Watch Reasons',
+      ],
+      ...this.filteredUsers.map((user) => [
+        String(user.id),
+        user.email,
+        user.role,
+        String(user.receiptCount),
+        String(user.budgetCount),
+        String(user.categoryCount),
+        user.latestReceiptAt ?? '',
+        this.getWatchReasons(user).join('; '),
+      ]),
+    ];
+
+    const csv = rows
+      .map((row) =>
+        row.map((cell) => `"${String(cell).replace(/"/g, '""')}"`).join(','),
+      )
+      .join('\r\n');
+
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'admin-users-export.csv';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(url);
   }
 
   get filteredUsers(): AdminUserSummary[] {
@@ -173,6 +232,104 @@ export class AdminPageComponent implements OnInit {
       }))
       .filter((item) => item.reasons.length > 0)
       .sort((left, right) => right.reasons.length - left.reasons.length);
+  }
+
+  get workspaceSignals(): AdminWorkspaceSignal[] {
+    const readyAccounts = this.users.filter(
+      (user) =>
+        user.receiptCount > 0 && user.budgetCount > 0 && user.categoryCount > 0,
+    ).length;
+    const dormantUsers = this.users.filter((user) => !this.isRecentlyActive(user))
+      .length;
+    const activeUploaders = this.users.filter((user) => user.receiptCount > 0);
+    const averageReceipts = activeUploaders.length
+      ? (
+          activeUploaders.reduce(
+            (sum, user) => sum + user.receiptCount,
+            0,
+          ) / activeUploaders.length
+        ).toFixed(1)
+      : '0.0';
+    const adminCount = this.users.filter((user) => user.role === 'Admin').length;
+    const adminCoverage = this.users.length
+      ? `${Math.round((adminCount / this.users.length) * 100)}%`
+      : '0%';
+
+    return [
+      {
+        label: 'Ready accounts',
+        value: `${readyAccounts}/${this.users.length || 0}`,
+        detail: 'Users with receipts, budgets, and categories already configured',
+        icon: 'task_alt',
+        tone: readyAccounts === this.users.length ? 'positive' : 'default',
+      },
+      {
+        label: 'Dormant users',
+        value: dormantUsers.toString(),
+        detail: 'Accounts without receipt activity in the last 7 days',
+        icon: 'schedule_send',
+        tone: dormantUsers > 0 ? 'warning' : 'positive',
+      },
+      {
+        label: 'Admin coverage',
+        value: adminCoverage,
+        detail: 'Share of the workspace that can manage roles and governance',
+        icon: 'admin_panel_settings',
+        tone: adminCount <= 1 ? 'warning' : 'positive',
+      },
+      {
+        label: 'Receipt depth',
+        value: averageReceipts,
+        detail: 'Average number of receipts among users who already upload',
+        icon: 'stacked_line_chart',
+        tone: 'default',
+      },
+    ];
+  }
+
+  get adminRecommendations(): AdminRecommendation[] {
+    const adminCount = this.users.filter((user) => user.role === 'Admin').length;
+    const dormantUsers = this.users.filter((user) => !this.isRecentlyActive(user))
+      .length;
+    const watchlistCount = this.users.filter(
+      (user) => this.getWatchReasons(user).length > 0,
+    ).length;
+
+    return [
+      {
+        title:
+          adminCount <= 1
+            ? 'Add one backup admin'
+            : 'Admin role coverage looks healthy',
+        detail:
+          adminCount <= 1
+            ? 'A second admin reduces setup and access risk if one account is unavailable.'
+            : 'Multiple admin accounts are already available for governance and handoff.',
+        tone: adminCount <= 1 ? 'warning' : 'positive',
+      },
+      {
+        title:
+          watchlistCount > 0
+            ? `Finish setup for ${watchlistCount} accounts`
+            : 'No onboarding backlog right now',
+        detail:
+          watchlistCount > 0
+            ? 'Focus first on users missing receipts, budgets, or categories so the workspace data stays useful.'
+            : 'The current workspace has the basics configured across all visible users.',
+        tone: watchlistCount > 0 ? 'default' : 'positive',
+      },
+      {
+        title:
+          dormantUsers > 0
+            ? `Re-engage ${dormantUsers} inactive users`
+            : 'Recent user activity looks strong',
+        detail:
+          dormantUsers > 0
+            ? 'A quick reminder or onboarding follow-up could bring those accounts back into active use.'
+            : 'Most accounts have uploaded receipts recently, which is a strong sign of adoption.',
+        tone: dormantUsers > 0 ? 'warning' : 'positive',
+      },
+    ];
   }
 
   private isRecentlyActive(user: AdminUserSummary): boolean {

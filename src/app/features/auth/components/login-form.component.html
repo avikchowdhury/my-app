@@ -1,12 +1,29 @@
 <div class="form-copy">
-  <h2>Sign in</h2>
-  <p>Open your dashboards, receipt inbox, and AI spending recommendations.</p>
+  <span class="section-tag">Welcome back</span>
+  <h2>Sign in to your workspace</h2>
+  <p>Review receipts, budgets, alerts, and next actions from one clean dashboard.</p>
+</div>
+
+<div class="form-highlights">
+  <div class="highlight-item">
+    <mat-icon>verified_user</mat-icon>
+    <span>Secure account access with your saved credentials</span>
+  </div>
+  <div class="highlight-item">
+    <mat-icon>insights</mat-icon>
+    <span>Open your month-to-date progress in seconds</span>
+  </div>
 </div>
 
 <form class="auth-form" [formGroup]="form" (ngSubmit)="submit()">
   <mat-form-field appearance="outline">
     <mat-label>Email</mat-label>
-    <input matInput type="email" formControlName="email" />
+    <input
+      matInput
+      type="email"
+      formControlName="email"
+      autocomplete="email"
+    />
     <mat-error *ngIf="form.get('email')?.hasError('required')"
       >Email is required.</mat-error
     >
@@ -21,6 +38,7 @@
       matInput
       [type]="showPassword ? 'text' : 'password'"
       formControlName="password"
+      autocomplete="current-password"
     />
     <button
       mat-icon-button
@@ -44,6 +62,11 @@
   <div class="status error" *ngIf="errorMessage">{{ errorMessage }}</div>
 
   <button mat-raised-button color="primary" type="submit" [disabled]="loading">
-    {{ loading ? "Signing in..." : "Login to dashboard" }}
+    {{ loading ? "Signing in..." : "Open workspace" }}
   </button>
 </form>
+
+<div class="support-note">
+  <mat-icon>workspace_premium</mat-icon>
+  <span>Original product by Avik Chowdhury.</span>
+</div>

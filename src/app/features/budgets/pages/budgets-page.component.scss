@@ -19,21 +19,9 @@ app-budget-list-panel {
   padding: 1.15rem 1.25rem;
   border-radius: 30px;
   background:
-    radial-gradient(
-      circle at top right,
-      rgba(24, 168, 193, 0.14),
-      transparent 30%
-    ),
-    radial-gradient(
-      circle at bottom left,
-      rgba(15, 108, 91, 0.1),
-      transparent 34%
-    ),
-    linear-gradient(
-      180deg,
-      rgba(255, 255, 255, 0.95) 0%,
-      rgba(247, 251, 253, 0.95) 100%
-    );
+    radial-gradient(circle at top right, rgba(24, 168, 193, 0.14), transparent 30%),
+    radial-gradient(circle at bottom left, rgba(15, 108, 91, 0.1), transparent 34%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(247, 251, 253, 0.95) 100%);
   box-shadow: 0 20px 40px rgba(20, 40, 57, 0.08);
 }
 
@@ -100,8 +88,6 @@ app-budget-list-panel {
   align-items: start;
 }
 
-// ── AI Budget Coach ───────────────────────────────────────────────────────────
-
 .coach-card {
   display: grid;
   gap: 0;
@@ -121,42 +107,43 @@ app-budget-list-panel {
   padding: 1.1rem 1.3rem;
   cursor: pointer;
   user-select: none;
+}
 
-  &:hover {
-    background: rgba(15, 108, 91, 0.03);
-  }
+.coach-header:hover {
+  background: rgba(15, 108, 91, 0.03);
 }
 
 .coach-title {
   display: flex;
   align-items: center;
   gap: 0.75rem;
+}
 
-  mat-icon {
-    color: #0f6c5b;
-    font-size: 22px;
-    width: 22px;
-    height: 22px;
-  }
+.coach-title mat-icon {
+  color: #0f6c5b;
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
 
-  strong {
-    display: block;
-    color: #13293d;
-    font-size: 0.97rem;
-  }
-  small {
-    color: #61798a;
-    font-size: 0.8rem;
-  }
+.coach-title strong {
+  display: block;
+  color: #13293d;
+  font-size: 0.97rem;
+}
+
+.coach-title small {
+  color: #61798a;
+  font-size: 0.8rem;
 }
 
 .expand-icon {
   color: #61798a;
   transition: transform 0.2s;
+}
 
-  &.rotated {
-    transform: rotate(180deg);
-  }
+.expand-icon.rotated {
+  transform: rotate(180deg);
 }
 
 .coach-body {
@@ -171,11 +158,11 @@ app-budget-list-panel {
   flex-wrap: wrap;
   gap: 0.55rem;
   padding-top: 0.9rem;
+}
 
-  button {
-    border-radius: 999px !important;
-    font-size: 0.78rem !important;
-  }
+.coach-goals button {
+  border-radius: 999px !important;
+  font-size: 0.78rem !important;
 }
 
 .coach-form {
@@ -183,10 +170,10 @@ app-budget-list-panel {
   grid-template-columns: 1fr auto;
   gap: 1rem;
   align-items: start;
+}
 
-  button {
-    min-height: 56px;
-  }
+.coach-form button {
+  min-height: 56px;
 }
 
 .coach-input {
@@ -205,25 +192,23 @@ app-budget-list-panel {
   display: flex;
   gap: 4px;
   align-items: center;
+}
 
-  span {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #0f6c5b;
-    opacity: 0.35;
-    animation: bounce 1.2s infinite ease-in-out;
+.typing-dots span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #0f6c5b;
+  opacity: 0.35;
+  animation: bounce 1.2s infinite ease-in-out;
+}
 
-    &:nth-child(1) {
-      animation-delay: 0s;
-    }
-    &:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-    &:nth-child(3) {
-      animation-delay: 0.4s;
-    }
-  }
+.typing-dots span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typing-dots span:nth-child(3) {
+  animation-delay: 0.4s;
 }
 
 @keyframes bounce {
@@ -233,6 +218,7 @@ app-budget-list-panel {
     transform: translateY(0);
     opacity: 0.35;
   }
+
   30% {
     transform: translateY(-6px);
     opacity: 1;
@@ -247,25 +233,25 @@ app-budget-list-panel {
   border-radius: 16px;
   background: rgba(15, 108, 91, 0.06);
   border: 1px solid rgba(15, 108, 91, 0.16);
-
-  mat-icon {
-    color: #0f6c5b;
-    font-size: 20px;
-    width: 20px;
-    height: 20px;
-    flex-shrink: 0;
-    margin-top: 2px;
-  }
-  p {
-    margin: 0;
-    color: #1f3d50;
-    line-height: 1.7;
-    white-space: pre-line;
-    font-size: 0.91rem;
-  }
 }
 
-// ── Responsive ─────────────────────────────────────────────────────────────────
+.coach-reply mat-icon {
+  color: #0f6c5b;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.coach-reply p,
+.coach-reply .rich-text {
+  margin: 0;
+  color: #1f3d50;
+  line-height: 1.7;
+  white-space: pre-line;
+  font-size: 0.91rem;
+}
 
 @media (max-width: 980px) {
   .advisor-grid {

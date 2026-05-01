@@ -1,9 +1,19 @@
 .auth-hero {
   padding: 2rem;
   border-radius: 28px;
-  background: linear-gradient(180deg, rgba(9, 29, 41, 0.95) 0%, rgba(8, 43, 56, 0.95) 100%);
+  background:
+    radial-gradient(circle at top right, rgba(229, 176, 95, 0.18), transparent 28%),
+    linear-gradient(180deg, rgba(9, 29, 41, 0.96) 0%, rgba(8, 43, 56, 0.98) 100%);
   color: #f4fbfd;
   box-shadow: 0 24px 60px rgba(3, 14, 21, 0.28);
+}
+
+.hero-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  flex-wrap: wrap;
 }
 
 .eyebrow {
@@ -12,6 +22,19 @@
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: #7de0be;
+}
+
+.creator-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #f4fbfd;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
 .auth-hero h1 {
@@ -25,6 +48,26 @@
   max-width: 560px;
   color: #c7d9e0;
   font-size: 1.02rem;
+}
+
+.hero-story {
+  margin-bottom: 1.5rem;
+  padding: 1rem 1.05rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-story strong {
+  display: block;
+  margin-bottom: 0.3rem;
+  font-size: 1rem;
+}
+
+.hero-story p {
+  margin: 0;
+  color: #c7d9e0;
+  line-height: 1.55;
 }
 
 .hero-cards {
@@ -60,4 +103,41 @@
 .hero-card p {
   margin: 0;
   color: #c7d9e0;
+}
+
+.hero-stat-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.85rem;
+  margin-top: 1.25rem;
+}
+
+.hero-stat {
+  padding: 0.95rem 1rem;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.hero-stat span {
+  display: block;
+  margin-bottom: 0.2rem;
+  color: #9cc5d0;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.hero-stat strong {
+  color: #f4fbfd;
+}
+
+@media (max-width: 640px) {
+  .auth-hero {
+    padding: 1.3rem;
+  }
+
+  .hero-stat-row {
+    grid-template-columns: 1fr;
+  }
 }

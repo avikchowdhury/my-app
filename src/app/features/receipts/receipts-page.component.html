@@ -150,7 +150,7 @@
     <div class="upload-insight" *ngIf="!uploadInsightLoading && uploadInsight">
       <div class="upload-insight-body">
         <mat-icon>auto_awesome</mat-icon>
-        <p>{{ uploadInsight }}</p>
+        <div class="rich-text" [innerHTML]="uploadInsight | appRichText"></div>
       </div>
       <button
         mat-icon-button

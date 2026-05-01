@@ -1,12 +1,11 @@
 <mat-card class="chat-panel">
-  <!-- Header -->
   <div class="chat-header">
     <div class="chat-header-title-row">
       <div>
-        <mat-card-title>AI Expense Assistant</mat-card-title>
-        <mat-card-subtitle
-          >Powered by your real budget &amp; receipt data</mat-card-subtitle
-        >
+        <mat-card-title>Spending Assistant</mat-card-title>
+        <mat-card-subtitle>
+          Grounded in your real budget and receipt data
+        </mat-card-subtitle>
       </div>
       <button
         mat-icon-button
@@ -20,7 +19,6 @@
       </button>
     </div>
 
-    <!-- Monthly summary strip -->
     <div class="summary-strip" *ngIf="!summaryLoading && monthlySummary">
       <div class="summary-chips">
         <span class="summary-chip primary">
@@ -45,7 +43,6 @@
       </p>
     </div>
 
-    <!-- Anomaly pills -->
     <div class="anomaly-strip" *ngIf="anomalies.length > 0">
       <span class="anomaly-label">
         <mat-icon>warning_amber</mat-icon> Spending spikes detected:
@@ -63,7 +60,12 @@
       </button>
     </div>
 
-    <!-- Starter prompts -->
+    <div class="prompt-guidance">
+      Use it for direct questions, broad planning, or "what if" ideas. If the
+      question is open-ended, the assistant will still try to tie it back to
+      your real numbers.
+    </div>
+
     <div class="prompt-list">
       <button
         mat-stroked-button
@@ -76,7 +78,6 @@
     </div>
   </div>
 
-  <!-- Message list -->
   <div class="message-shell">
     <div class="message-list" #messageList>
       <article
@@ -87,18 +88,18 @@
       >
         <div class="message-badge">
           <span class="badge-pill">{{
-            message.role === "assistant" ? "AI Assistant" : "You"
+            message.role === "assistant" ? "Spending Assistant" : "You"
           }}</span>
           <small *ngIf="message.createdAt">{{
             message.createdAt | appDate: "shortTime"
           }}</small>
         </div>
 
-        <div class="message-content">
-          <p>{{ message.content }}</p>
-        </div>
+        <div
+          class="message-content rich-text"
+          [innerHTML]="message.content | appRichText"
+        ></div>
 
-        <!-- Copy button (assistant messages only) -->
         <button
           mat-icon-button
           type="button"
@@ -112,9 +113,11 @@
           }}</mat-icon>
         </button>
 
-        <small class="evidence" *ngIf="message.response?.evidenceSummary">
-          {{ message.response?.evidenceSummary }}
-        </small>
+        <small
+          class="evidence rich-text"
+          *ngIf="message.response?.evidenceSummary"
+          [innerHTML]="message.response?.evidenceSummary | appRichText"
+        ></small>
 
         <div class="response-cards" *ngIf="message.response?.cards?.length">
           <section
@@ -154,10 +157,9 @@
         </div>
       </article>
 
-      <!-- Typing indicator -->
       <article class="message assistant pending-message" *ngIf="loading">
         <div class="message-badge">
-          <span class="badge-pill">AI Assistant</span>
+          <span class="badge-pill">Spending Assistant</span>
         </div>
         <div class="typing-indicator">
           <span></span><span></span><span></span>
@@ -166,7 +168,6 @@
     </div>
   </div>
 
-  <!-- Input form -->
   <form class="chat-form" (ngSubmit)="submit()">
     <div class="input-wrapper">
       <mat-form-field appearance="outline" class="chat-input-field">
@@ -176,7 +177,7 @@
           [(ngModel)]="prompt"
           name="prompt"
           [maxlength]="maxLength"
-          placeholder="Where am I most likely to overspend?"
+          placeholder="Ask a budget, habit, vendor, or what-if question"
           autocomplete="off"
         />
       </mat-form-field>
@@ -195,7 +196,7 @@
       [disabled]="loading || !prompt.trim()"
     >
       <mat-icon>send</mat-icon>
-      {{ loading ? "Thinking…" : "Send" }}
+      {{ loading ? "Thinking..." : "Send" }}
     </button>
   </form>
 </mat-card>

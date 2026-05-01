@@ -3,6 +3,15 @@
     <app-auth-hero [mode]="(activeMode$ | async) || 'login'"></app-auth-hero>
 
     <section class="auth-panel">
+      <div class="panel-topbar">
+        <span class="panel-mode">{{
+          ((activeMode$ | async) || 'login') === 'register'
+            ? 'New workspace setup'
+            : 'Secure workspace access'
+        }}</span>
+        <span class="panel-credit">Original product by Avik Chowdhury</span>
+      </div>
+
       <div class="auth-tabs" *ngIf="showTabs$ | async">
         <a routerLink="/auth/login" routerLinkActive="active" class="auth-tab"
           >Login</a

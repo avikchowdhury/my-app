@@ -61,7 +61,7 @@
             </div>
             <div class="identity-row">
               <span class="label">Workspace</span>
-              <strong>AI Expense Tracker</strong>
+              <strong>Expense Tracker Workspace</strong>
             </div>
           </div>
         </div>
@@ -239,10 +239,13 @@
             <mat-select formControlName="phoneCountryCode">
               <mat-select-trigger>
                 <span class="country-trigger">
-                  <span class="country-flag">{{
+                  <span class="country-flag flag-tile">{{
                     selectedPhoneCountry.flag
                   }}</span>
-                  <span>{{ selectedPhoneCountry.dialCode }}</span>
+                  <span class="country-trigger-copy">
+                    <strong>{{ selectedPhoneCountry.name }}</strong>
+                    <small>{{ selectedPhoneCountry.dialCode }}</small>
+                  </span>
                 </span>
               </mat-select-trigger>
 
@@ -251,7 +254,7 @@
                 [value]="country.dialCode"
               >
                 <span class="country-option">
-                  <span class="country-flag">{{ country.flag }}</span>
+                  <span class="country-flag flag-tile">{{ country.flag }}</span>
                   <span class="country-name">{{ country.name }}</span>
                   <span class="country-code">{{ country.dialCode }}</span>
                 </span>

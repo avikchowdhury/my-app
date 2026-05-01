@@ -27,6 +27,7 @@ import { NgChartsModule } from 'ng2-charts';
 import { ConfirmDialogComponent } from './components/confirm-dialog.component';
 import { AppCurrencyPipe } from './pipes/app-currency.pipe';
 import { AppDatePipe } from './pipes/app-date.pipe';
+import { AppRichTextPipe } from './pipes/app-rich-text.pipe';
 import { AppTranslatePipe } from './pipes/app-translate.pipe';
 
 @NgModule({
@@ -34,6 +35,7 @@ import { AppTranslatePipe } from './pipes/app-translate.pipe';
     ConfirmDialogComponent,
     AppCurrencyPipe,
     AppDatePipe,
+    AppRichTextPipe,
     AppTranslatePipe,
   ],
   imports: [
@@ -68,6 +70,7 @@ import { AppTranslatePipe } from './pipes/app-translate.pipe';
     ConfirmDialogComponent,
     AppCurrencyPipe,
     AppDatePipe,
+    AppRichTextPipe,
     AppTranslatePipe,
     CommonModule,
     FormsModule,

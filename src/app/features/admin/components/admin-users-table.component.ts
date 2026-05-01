@@ -42,4 +42,8 @@ export class AdminUsersTableComponent {
 
     this.roleChange.emit({ userId: user.id, role: this.getNextRole(user) });
   }
+
+  copyEmail(email: string): void {
+    navigator.clipboard.writeText(email).catch(() => undefined);
+  }
 }

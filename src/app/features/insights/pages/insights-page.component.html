@@ -88,7 +88,7 @@
     <!-- AI Summary text -->
     <mat-card class="ai-summary-card" *ngIf="monthlySummary?.aiSummary">
       <mat-icon class="ai-icon">auto_awesome</mat-icon>
-      <p>{{ monthlySummary?.aiSummary }}</p>
+      <p [innerHTML]="monthlySummary?.aiSummary | appRichText"></p>
     </mat-card>
 
     <mat-card class="weekly-summary-card" *ngIf="weeklySummary">
@@ -121,7 +121,10 @@
         </span>
       </div>
 
-      <p class="weekly-recommendation">{{ weeklySummary.recommendation }}</p>
+      <p
+        class="weekly-recommendation"
+        [innerHTML]="weeklySummary.recommendation | appRichText"
+      ></p>
     </mat-card>
 
     <!-- Tabs -->
@@ -294,7 +297,7 @@
     <div class="tab-content" *ngIf="activeTab === 'vendors'">
       <div class="vendor-observation" *ngIf="vendorAnalysis?.aiObservation">
         <mat-icon>auto_awesome</mat-icon>
-        <p>{{ vendorAnalysis!.aiObservation }}</p>
+        <p [innerHTML]="vendorAnalysis!.aiObservation | appRichText"></p>
       </div>
 
       <div class="vendor-loading" *ngIf="vendorLoading">
@@ -395,7 +398,7 @@
 
       <div class="ai-reply" *ngIf="!aiThinking && aiResponse">
         <mat-icon>smart_toy</mat-icon>
-        <p>{{ aiResponse }}</p>
+        <div class="rich-text" [innerHTML]="aiResponse | appRichText"></div>
       </div>
     </mat-card>
   </ng-container>
