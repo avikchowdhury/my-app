@@ -468,6 +468,81 @@
   border-radius: 999px;
 }
 
+.chat-actions-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.regenerate-btn {
+  border-radius: 999px !important;
+}
+
+.action-hint {
+  color: #61798a;
+  font-size: 0.84rem;
+}
+
+.chat-next-steps {
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem 1.05rem;
+  border-radius: 20px;
+  background: rgba(247, 251, 253, 0.92);
+  border: 1px solid rgba(19, 41, 61, 0.08);
+}
+
+.next-steps-header {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.next-steps-header strong {
+  color: #13293d;
+}
+
+.next-steps-header span {
+  color: #61798a;
+  font-size: 0.84rem;
+  line-height: 1.45;
+}
+
+.action-link-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  border-radius: 999px !important;
+}
+
+.action-link mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.follow-up-panel {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.follow-up-label {
+  color: #688092;
+  font-size: 0.78rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.sticky-follow-ups button {
+  background: #ffffff;
+}
+
 .chat-form {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
@@ -528,6 +603,10 @@
   }
 
   .message-badge {
+    align-items: flex-start;
+  }
+
+  .chat-actions-bar {
     align-items: flex-start;
   }
 }

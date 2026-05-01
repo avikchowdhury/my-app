@@ -186,6 +186,57 @@
     </div>
   </div>
 
+  <div class="chat-actions-bar" *ngIf="lastUserMessage || latestSuggestions.length">
+    <button
+      mat-stroked-button
+      type="button"
+      class="regenerate-btn"
+      (click)="regenerateLastAnswer()"
+      [disabled]="loading || !lastUserMessage"
+    >
+      <mat-icon>refresh</mat-icon>
+      Regenerate answer
+    </button>
+
+    <span class="action-hint" *ngIf="lastUserMessage">
+      Re-run the last question with the current chat mode.
+    </span>
+  </div>
+
+  <div class="chat-next-steps" *ngIf="latestSuggestions.length || latestActionLinks.length">
+    <div class="next-steps-header">
+      <strong>Next best steps</strong>
+      <span>Use a follow-up question or jump straight to the right page.</span>
+    </div>
+
+    <div class="action-link-list" *ngIf="latestActionLinks.length">
+      <button
+        mat-stroked-button
+        type="button"
+        class="action-link"
+        *ngFor="let action of latestActionLinks"
+        (click)="openAction(action)"
+      >
+        <mat-icon>{{ action.icon }}</mat-icon>
+        {{ action.label }}
+      </button>
+    </div>
+
+    <div class="follow-up-panel" *ngIf="latestSuggestions.length">
+      <span class="follow-up-label">Follow-up questions</span>
+      <div class="follow-up-list sticky-follow-ups">
+        <button
+          mat-stroked-button
+          type="button"
+          *ngFor="let suggestion of latestSuggestions"
+          (click)="usePrompt(suggestion)"
+        >
+          {{ suggestion }}
+        </button>
+      </div>
+    </div>
+  </div>
+
   <form class="chat-form" (ngSubmit)="submit()">
     <div class="input-wrapper">
       <mat-form-field appearance="outline" class="chat-input-field">

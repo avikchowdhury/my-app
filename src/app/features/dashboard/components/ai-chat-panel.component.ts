@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { AiChatMessage } from '../../../models';
 import {
   AiAssistantService,
@@ -20,6 +21,12 @@ interface AskModeOption {
   id: AskModeId;
   label: string;
   description: string;
+}
+
+interface ChatActionLink {
+  label: string;
+  route: string;
+  icon: string;
 }
 
 @Component({
@@ -81,7 +88,10 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
   @ViewChild('messageList')
   private messageListRef?: ElementRef<HTMLDivElement>;
 
-  constructor(private aiAssistantService: AiAssistantService) {}
+  constructor(
+    private aiAssistantService: AiAssistantService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.loadSummary();
@@ -193,6 +203,19 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
       });
   }
 
+  regenerateLastAnswer(): void {
+    if (this.loading || !this.lastUserMessage) {
+      return;
+    }
+
+    this.prompt = this.lastUserMessage.content;
+    this.submit();
+  }
+
+  openAction(action: ChatActionLink): void {
+    this.router.navigateByUrl(action.route);
+  }
+
   private buildModeAwarePrompt(message: string): string {
     switch (this.selectedModeId) {
       case 'what-if':
@@ -224,5 +247,101 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
       this.askModes.find((mode) => mode.id === this.selectedModeId) ||
       this.askModes[0]
     );
+  }
+
+  get lastUserMessage(): AiChatMessage | null {
+    for (let index = this.messages.length - 1; index >= 0; index -= 1) {
+      if (this.messages[index].role === 'user') {
+        return this.messages[index];
+      }
+    }
+
+    return null;
+  }
+
+  get lastAssistantMessage(): AiChatMessage | null {
+    for (let index = this.messages.length - 1; index >= 0; index -= 1) {
+      if (this.messages[index].role === 'assistant' && this.messages[index].response) {
+        return this.messages[index];
+      }
+    }
+
+    return null;
+  }
+
+  get latestSuggestions(): string[] {
+    return this.lastAssistantMessage?.response?.suggestions ?? [];
+  }
+
+  get latestActionLinks(): ChatActionLink[] {
+    const lastAssistant = this.lastAssistantMessage;
+    const latestUser = this.lastUserMessage;
+
+    if (!lastAssistant?.response) {
+      return [];
+    }
+
+    const routeMap = new Map<string, ChatActionLink>();
+    const referencedMetrics = lastAssistant.response.referencedMetrics.map((metric) =>
+      metric.toLowerCase(),
+    );
+    const combinedText = [
+      latestUser?.content ?? '',
+      lastAssistant.response.reply,
+      ...lastAssistant.response.referencedMetrics,
+      ...lastAssistant.response.suggestions,
+    ]
+      .join(' ')
+      .toLowerCase();
+
+    const addRoute = (label: string, route: string, icon: string): void => {
+      routeMap.set(route, { label, route, icon });
+    };
+
+    if (
+      referencedMetrics.some((metric) => metric.includes('budget')) ||
+      combinedText.includes('budget') ||
+      combinedText.includes('save') ||
+      combinedText.includes('overspend')
+    ) {
+      addRoute('Open Budgets', '/budgets', 'savings');
+      addRoute('View Forecast', '/forecast', 'insights');
+    }
+
+    if (
+      referencedMetrics.some((metric) => metric.includes('recurring')) ||
+      combinedText.includes('subscription') ||
+      combinedText.includes('recurring')
+    ) {
+      addRoute('Open Subscription Insights', '/insights?tab=subscriptions', 'autorenew');
+      addRoute('Review Receipts', '/receipts', 'receipt_long');
+    }
+
+    if (
+      referencedMetrics.some((metric) => metric.includes('alert')) ||
+      combinedText.includes('anomaly') ||
+      combinedText.includes('risk') ||
+      combinedText.includes('spike')
+    ) {
+      addRoute('Open Risk Insights', '/insights?tab=anomalies', 'warning_amber');
+      addRoute('Check Forecast', '/forecast', 'show_chart');
+    }
+
+    if (
+      referencedMetrics.some((metric) => metric.includes('receipt')) ||
+      combinedText.includes('vendor') ||
+      combinedText.includes('merchant') ||
+      combinedText.includes('receipt')
+    ) {
+      addRoute('Open Receipts', '/receipts', 'receipt_long');
+      addRoute('Manage Categories', '/categories', 'category');
+    }
+
+    if (combinedText.includes('how to use') || combinedText.includes('screen')) {
+      addRoute('Open Dashboard', '/dashboard', 'dashboard');
+      addRoute('Open Profile', '/profile', 'manage_accounts');
+    }
+
+    return Array.from(routeMap.values()).slice(0, 3);
   }
 }
