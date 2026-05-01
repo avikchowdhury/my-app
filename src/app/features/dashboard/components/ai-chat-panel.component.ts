@@ -14,6 +14,14 @@ import {
 
 const MAX_PROMPT_LENGTH = 500;
 
+type AskModeId = 'smart' | 'what-if' | 'savings' | 'app-help';
+
+interface AskModeOption {
+  id: AskModeId;
+  label: string;
+  description: string;
+}
+
 @Component({
   selector: 'app-ai-chat-panel',
   templateUrl: './ai-chat-panel.component.html',
@@ -28,12 +36,35 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
   ];
 
   readonly maxLength = MAX_PROMPT_LENGTH;
+  readonly askModes: AskModeOption[] = [
+    {
+      id: 'smart',
+      label: 'Smart',
+      description: 'Balanced answer using tracker context when relevant.',
+    },
+    {
+      id: 'what-if',
+      label: 'What-If',
+      description: 'Scenario planning with assumptions called out clearly.',
+    },
+    {
+      id: 'savings',
+      label: 'Savings Plan',
+      description: 'Action-focused ways to cut cost or reduce month-end risk.',
+    },
+    {
+      id: 'app-help',
+      label: 'App Help',
+      description: 'Best for workflow, feature, and navigation questions.',
+    },
+  ];
 
   starterPrompts: string[] = [...this.defaultPrompts];
   monthlySummary: MonthlySummary | null = null;
   anomalies: SpendingAnomaly[] = [];
   summaryLoading = true;
   copiedIndex: number | null = null;
+  selectedModeId: AskModeId = 'smart';
 
   messages: AiChatMessage[] = [
     {
@@ -115,6 +146,10 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
     this.submit();
   }
 
+  setAskMode(modeId: AskModeId): void {
+    this.selectedModeId = modeId;
+  }
+
   submit(): void {
     const message = this.prompt.trim();
     if (!message || this.loading) {
@@ -126,7 +161,9 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
     this.prompt = '';
     this.loading = true;
 
-    this.aiAssistantService.sendMessage({ message }).subscribe({
+    this.aiAssistantService
+      .sendMessage({ message: this.buildModeAwarePrompt(message) })
+      .subscribe({
       next: (response) => {
         this.messages = [
           ...this.messages,
@@ -153,7 +190,21 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
       complete: () => {
         this.loading = false;
       },
-    });
+      });
+  }
+
+  private buildModeAwarePrompt(message: string): string {
+    switch (this.selectedModeId) {
+      case 'what-if':
+        return `What-if scenario: ${message}\n\nPlease evaluate the scenario, make assumptions explicit, and connect the answer to my current spending patterns when possible.`;
+      case 'savings':
+        return `Savings plan request: ${message}\n\nPlease focus on practical cost-cutting ideas, tradeoffs, and the simplest next actions.`;
+      case 'app-help':
+        return `App help request: ${message}\n\nPlease answer as a product guide and point me to the right screen or feature when relevant.`;
+      case 'smart':
+      default:
+        return message;
+    }
   }
 
   trackByMessage(index: number, message: AiChatMessage): string {
@@ -166,5 +217,12 @@ export class AiChatPanelComponent implements AfterViewChecked, OnInit {
 
   get promptNearLimit(): boolean {
     return this.promptLength > MAX_PROMPT_LENGTH * 0.8;
+  }
+
+  get selectedMode(): AskModeOption {
+    return (
+      this.askModes.find((mode) => mode.id === this.selectedModeId) ||
+      this.askModes[0]
+    );
   }
 }

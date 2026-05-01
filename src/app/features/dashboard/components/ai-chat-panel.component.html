@@ -66,6 +66,24 @@
       your real numbers.
     </div>
 
+    <div class="ask-mode-strip">
+      <button
+        mat-stroked-button
+        type="button"
+        class="mode-chip"
+        *ngFor="let mode of askModes"
+        [class.active]="mode.id === selectedModeId"
+        (click)="setAskMode(mode.id)"
+      >
+        {{ mode.label }}
+      </button>
+    </div>
+
+    <div class="selected-mode-note">
+      <strong>{{ selectedMode.label }}</strong>
+      <span>{{ selectedMode.description }}</span>
+    </div>
+
     <div class="prompt-list">
       <button
         mat-stroked-button
